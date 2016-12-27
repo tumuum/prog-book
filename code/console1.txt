@@ -1,0 +1,6 @@
+\begin{Verbatim}
+Python 3.4.2 (default, Oct  8 2014, 13:14:40) 
+[GCC 4.9.1] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> 
+\end{Verbatim}
