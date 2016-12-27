@@ -1,0 +1,1422 @@
+\documentclass[a4paper]{article}
+\usepackage{natbib,unatbib}
+\usepackage[nohide]{ulecnot}
+
+
+\usepackage{tikz-qtree}
+
+\usepackage{uprog}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkbordercolor=red,linkcolor=green,pdfborderstyle={/S/U/W 1}}
+
+\pagestyle{fancy}
+\lhead{METU Cognitive Science}
+\chead{Introduction to Programming (with Python)}
+\rhead{Fall 2016}
+\lfoot{Umut \"Ozge -- \href{mailto:umozge@metu.edu.tr}{\nolinkurl{umozge@metu.edu.tr}}}
+\cfoot{Draft \it \today}
+\rfoot{Page \thepage/\pageref{LastPage}}
+\setlength{\headheight}{13.6pt}
+
+
+\begin{document}
+
+\tableofcontents
+
+\section{The Python interpreter}
+
+\begin{itemize}
+\item The first step to learning programming in Python is to have a working
+Python interpreter.
+
+\item The course will be based on Python 3, i.e.\ we will assume that you are
+running your programs on an interpreter with a version number starting with
+3.\footnote{Please check \url{https://docs.python.org/3.0/whatsnew/3.0.html}
+for what is new in Python 3.}
+
+\item Please visit \url{https://docs.python.org/2/using/index.html} for
+installing Python on the platform of your choice.
+
+\item You can interact with the interpreter, you can have it run a stored
+program, or you can do both.
+
+\item The previous item may not mean much at the moment, don't worry. 
+
+\item When you invoke the Python interpreter on its own, you will enter into the
+\uterm{interactive mode} of the interpreter.
+
+
+\begin{ucodeframe}
+\input{code/console1.txt}
+\end{ucodeframe}
+
+\item You can see the version you are running by checking the number in the
+first line, following `\Verb+Python+'.
+\item The Python \uterm{prompt} `\Verb+>>>+' indicates that the interpreter is ready
+to receive input from the \uterm{user}.   
+\item From now on, I will call the interface by which you interact with the
+interpreter the \uterm{Python console}, or simply the \uterm{console}.
+\item There are two ways to \uterm{exit} the console. You can either type
+\Verb+exit()+ followed by hitting \Verb+enter+, or you can hold down the control key and
+press \Verb+D+.
+
+
+\end{itemize}
+
+\section{Arithmetic}
+
+\begin{itemize}
+\item A fundamental distinction you need to learn well is the one between
+\uterm{expressions} and \uterm{statements}. Here we start with expressions. The
+statements will come later below.
+
+\item An expression is a piece of code that can be read by the interpreter. The
+interpreter deciphers this code -- or understands it, if you like -- and
+computes the \uterm{value} of this expression, and finally returns the value.
+
+\item To fix the terminology, interpreter evaluates an expression and computes a
+result. This computed result is the value of the expression.
+
+\item You can type an expression on the Python console and hit \Verb+enter+ for the
+interpreter to \uterm{evaluate} the expression and \uterm{print} the result on the
+screen. The simplest kind of expression you can provide to the interpreter is a
+number. Simply type it on the console and hit \Verb+return+.
+
+\begin{ucodeframe}
+\begin{pyconsole}
+4
+\end{pyconsole}
+\end{ucodeframe}
+
+\item There is nothing more basic than an integer, therefore the interpreter
+give you the integer back as the result of its evaluation.
+
+\item Arithmetic expressions are so fundamental to computing that almost all
+programming languages have \uterm{constructs} to perform arithmetic. You can
+actually use the Python interpreter as a calculator; type an arithmetic
+expression to the interpreter and hit \Verb+enter+ to let the interpreter evaluate
+the expression and return the result:
+
+\begin{ucodeframe}
+\begin{pyconsole}
+4 + 7
+\end{pyconsole}
+\end{ucodeframe}
+
+\item Now try something more complicated:
+
+\begin{ucodeframe}
+\begin{pyconsole}
+4 + 7 * 8
+\end{pyconsole}
+\end{ucodeframe}
+
+\item This could be a little surprise for you, if you were expecting the result
+to be 88 rather than 60. Actually 88 would be the result for an interpreter that
+evaluates arithmetic expressions from left to right, without caring about
+the kind of the arithmetic operator it is interpreting. The Python interpreter,
+like other interpreters, has some grouping rules concerning algebraic
+expressions like arithmetic operations. For instance, we have just discovered
+that it gives \uterm{precedence} to multiplication with respect to addition. If
+you want to compute first the sum of 4 and 7 and then multiply the result by 8,
+you should type:
+
+\begin{ucodeframe}
+\begin{pyconsole}
+(4 + 7) * 8
+\end{pyconsole}
+\end{ucodeframe}
+
+\item Some common operations that are available in the Python console
+are:\footnote{Note that in Python 2, `\Verb+/+' performs floor division, if
+the operands are integer; more on types below.}
+
+\begin{tabular}{llp{180pt}}
+Operator & Name & Example \\
+\pyv{+},\pyv{-}, * & add., subt., mult.\ & \\
+\pyv{/} & division & `\pyv{8/5}' gives `\pycon{8/5}'\\
+\pyv{//} & floor division & `\pyv{8//5}' gives `\pycon{8//5}', round the result to the greatest lower integer\\
+\pyv{%} & modulo & `\pyv{8%3}' gives `\pycon{8%3}', the remainder of division\\
+** & exponentiation & `\pyv{8**3}' gives `\pycon{8**3}'
+	\end{tabular}
+	
+\hrulefill
+\begin{uexercise}
+Open up a Python console, and by trying various expressions, figure out the
+grouping rules regulating the precedence of the operators given in the above
+table.
+\end{uexercise}
+\hrulefill
+\end{itemize}
+
+\section{Data types}
+
+\begin{itemize}
+
+\item With some idealization, you can think of computation as some actions
+operating on data and generating new data. The data can be integers, floating
+point numbers (floats), characters, strings, lists, matrices, and so
+on.\footnote{We will not cover the numerical type \pyv{complex}.}
+
+\item All the types of data mentioned above have their specific instances. As we
+will see shortly, the expression \pyv{4} is an instance of the type integer. We
+will call these instances \uterm{objects}. We will have more to say about these
+matters later, but let us fix the terminology from the beginning: Every
+\uterm{object} is an instance of a \uterm{class}, which names the object's
+\uterm{type}. If you are confused about objects, classes, and so on, at this
+point, do not worry and hold on. 
+
+\item Every programming language comes with a collection of \uterm{built-in data
+types}. What we mean by being built-in is that the language has some basic
+expressions to represent the type of data in question.\footnote{Some analogy: In
+Turkish you have a built-in expression to ask the place of an item in an ordered
+sequence, namely \emph{ka\c c\i{}nc\i{}}. English lacks such a built-in
+expression, it needs to construct complex expressions to ask the same question.}
+
+\end{itemize}
+
+\subsection{Integer}
+
+\begin{itemize}
+\item So far we have seen only one of the built-in data types of Python, namely
+integers.
+
+\item You can ask the type of the value of an expression -- which is an object
+-- on the Python console, by using a \uterm{built-in function} called `\pyv{type}'. 
+
+\begin{ucodeframe}
+\begin{pyconsole}
+type(4)
+\end{pyconsole}
+\end{ucodeframe}
+
+\item What \pyv{type} does is to first let the interpreter evaluate the
+expression in the parentheses, and then checks the type of the result of this
+evaluation.
+
+\begin{ucodeframe}
+\begin{pyconsole}
+type(4*2**3)
+\end{pyconsole}
+\end{ucodeframe}
+
+\end{itemize}
+
+\subsection{Float}
+\begin{itemize}
+\item Another numerical type is that of floating point numbers, or simply
+\uterm{float}.  
+
+\begin{ucodeframe}
+\begin{pyconsole}
+type(4.4)
+\end{pyconsole}
+\end{ucodeframe}
+
+\begin{ucodeframe}
+\begin{pyconsole}
+type(8/5)
+\end{pyconsole}
+\end{ucodeframe}
+
+\item Here are some more built-in functions that operate on numbers. 
+
+\begin{ucodeframe}
+\begin{pyconsole}
+abs(-4.2)
+pow(3, 2)
+divmod(8, 3)
+\end{pyconsole}
+\end{ucodeframe}
+
+\item If what \pyv{divmod} does is not clear, try to figure it out by giving it 
+other arguments.
+
+\item A handy function to be used with float objects is \pyv{round}:
+
+\begin{ucodeframe}
+\begin{pyconsole}
+round(44.6)
+round(44.5)
+round(3.141592653589793,4)
+\end{pyconsole}
+\end{ucodeframe}
+
+\item Here we observe that there are two functions with the name \pyv{round}.
+One rounds the floating number to the nearest integer, and takes only the
+floating number to be rounded as argument. The other \pyv{round} takes two
+arguments. The first is the float, the second is the number of digits to be kept
+after the floating point.
+
+
+\end{itemize}
+
+\subsection{String}
+
+\begin{itemize}
+
+\item Deep down, computers operate via numerical representations. However,
+computers are used in many tasks that are not numerical -- at least from the
+perspective of the user, take a text editor, web-browser, or a library
+management system for instance; programming itself is performed by mainly words. 
+
+\item A string is an ordered sequence of \emph{zero
+or more} characters.\footnote{In Python, there is no basic data type for
+characters; they are treated simply as unary strings.} The type of such objects
+is \uterm{str} in Python. There are two ways to
+represent strings: either with matching single quotes `\pyv{'}', or by matching
+double quotes `\pyv{"}'.  All the following are
+strings:
+
+\begin{ucodeframe}
+\begin{pyconsole}
+type('abracadabra')
+type("a")
+type(' ')
+type('')
+\end{pyconsole}
+\end{ucodeframe}
+
+\item Just like numbers, strings can be added by `\Verb|+|' and you can
+``multiply'' a string by an integer:
+
+\begin{ucodeframe}
+\begin{pyconsole}
+'abra' + 'cad' + 'abra'
+'cad' * 3
+3 * 'cad'
+\end{pyconsole}
+\end{ucodeframe}
+
+
+\item As we observed above, the built-in function \pyv{type} is evoked by
+providing its argument within parentheses. Python has another kind of built-in
+function which is called a \uterm{method}. These functions operate relative to certain types of objects. For
+instance a string object supports the method \pyv{upper()},
+which, like other methods, is evoked by the following syntax:
+
+\begin{ucodeframe}
+\begin{pyconsole}
+"abracadabra".upper()
+\end{pyconsole}
+\end{ucodeframe}
+
+\item We will encounter more string methods below.
+
+\end{itemize}
+
+
+\subsection{Boolean}
+
+\begin{itemize}
+
+\item We have seen above that arithmetical expressions evaluate to number
+objects and
+string concatenation or multiplication evaluate to string objects. Some expressions are
+like yes-no questions, they evaluate to true or false. Python has two designated
+objects that stand for these truth-values: \pyv{True} and \pyv{False}. Their
+type is \uterm{bool} (shortened from `boolean').
+
+\begin{ucodeframe}
+\begin{pyconsole}
+type(True)
+type(False)
+\end{pyconsole}
+\end{ucodeframe}
+
+\item Yes-no questions are asked by \uterm{comparison operators}. All but the
+two\footnote{We will discuss object comparison operators later.} are:
+
+\begin{tabular}{ll}
+\Verb+<+&	strictly less than\\
+\Verb+<=+&	less than or equal\\
+\Verb+>+&	strictly greater than\\
+\Verb+>=+&	greater than or equal\\
+\Verb+==+&	equal\\
+\Verb+!=+&	not equal
+\end{tabular}
+
+\item Comparison operators can be used to compare both numbers and strings. For
+strings alphabetical order determines the result of the comparison. Try
+
+\begin{ucodeframe}
+\begin{pyconsole}
+'abra' < 'cad'
+8 != 7
+8 == 7
+\end{pyconsole}
+\end{ucodeframe}
+
+\item Now let us combine some of the concepts we have encountered so far:
+
+\begin{ucodeframe}
+\begin{pyconsole}
+type(3 + 7 < 7)
+\end{pyconsole}
+\end{ucodeframe}
+
+\item Here, as in arithmetic, Python interpreter observes the precedence
+relation among operators. It first \uterm{evaluates} the addition operator since 
+comparison operators has lower precedence than arithmetic operators; then the
+comparison is performed -- giving \pyv{False}, and finally the built-in type
+detecting function is applied to \pyv{False}, giving the type expression for
+boolean, namely \pycon{type(True)}. The evaluation order can be pictured as a tree.
+
+
+\begin{tikzpicture}[sibling distance=40pt]
+\Tree [.\pyv{type} [.\pyv{<} [.\pyv{+} [.3 ] [.7 ] ] [.7 ] ] ]
+\end{tikzpicture}
+
+
+\item Boolean values can be combined with boolean operators \pyv{and}, \pyv{or},
+and \pyv{not} as in symbolic logic (more on this below).
+
+\end{itemize}
+
+\subsection{Type conversion (manual)}
+
+\begin{itemize}
+
+\item You can convert between types using \uterm{type constructors}, which are
+built-in Python functions. The constructors for the data types we have seen so
+far are \pyv{str}, \pyv{int}, \pyv{float} and
+\pyv{bool}. They take their arguments in parentheses. Some sample conversions
+are:
+
+\begin{ucodeframe}
+\begin{pyconsole}
+str(3.4)
+float(3)
+int(3.7)
+\end{pyconsole}
+\end{ucodeframe}
+
+\end{itemize}
+
+\section{Variables, identifiers, assignment statements}
+
+
+\begin{itemize}
+
+\item  A \uterm{variable} is a location where data -- Python objects in our case
+-- is stored. The content of a variable may change, hence the name ``variable''. 
+
+\item It is useful to have names for things, and variables are no exception. We
+can name (or point to) variables by \uterm{identifiers}. Python allows as
+identifier any sequence of letters, numbers and the underscore character
+(`\Verb+_+'), provided that the first character in the sequence is not a number
+or the sequence is not a special expression reserved for a designated use in
+Python, like \Verb+print+ for instance; such expressions are called
+\uterm{keywords}.  
+
+\item By using the identifier you can have access to the information (what we
+have been calling object or value) stored in the variable. We simply say that an
+identifier points to an object, or refers to an object, skipping the detail
+about the variable that mediates this relation.  You can make an identifier
+point to an object by an \uterm{assignment statement}:
+
+\begin{ucodeframe}
+\begin{pyconsole}
+my_number = 5
+\end{pyconsole}
+\end{ucodeframe}
+
+\item From there on, you can use \Verb+my_number+ everywhere you want to use 5.
+
+\item It is very important to learn the meaning of `\Verb+=+' in programming, as
+it is quite different from what we normally understand from equality in
+mathematics.\footnote{Some programming languages use `\Verb+<-+' instead.}
+
+\item Let's assume you continue the above code with entering this:  
+
+\begin{ucodeframe}
+\begin{pyconsole}
+your_number = my_number 
+\end{pyconsole}
+\end{ucodeframe}
+
+\item Now the following tests should succeed: 
+
+\begin{ucodeframe}
+\begin{pyconsole}
+your_number == 5 
+your_number == my_number 
+my_number == your_number 
+\end{pyconsole}
+\end{ucodeframe}
+
+\item Now modify \Verb+my_number+:
+
+\begin{ucodeframe}
+\begin{pyconsole}
+my_number = 7 
+\end{pyconsole}
+\end{ucodeframe}
+
+\item What do you expect as the value of \Verb+your_number+ when you modified
+the value of \Verb+my_number+? 5 or 7? Think a little before you try it on the
+console. (Get the habit of thinking before trying, this is very important in
+learning programming.)
+
+\item You will discover that modifying \Verb+my_number+ has no effect on
+\Verb+your_number+. This is because what is designated by `\Verb+=+' is not
+equality but the relation of ``pointing to''. When you say:\footnote{Here is a
+useful convention: Enclosing names between angle brackets forms a meta variable
+over the type of thing designated by the name. E.g.\ ``\Verb+<identifier>+''
+means ``take an arbitrary identifier'', likewise ``\Verb+value+'' stands for an
+arbitrary value.}
+
+\begin{pygments}[frame=single]{python}
+<identifier> = <value>
+\end{pygments}
+
+you mean that the name \Verb+<identifier>+ points to the object \Verb+value+.
+After that whenever you use the name \Verb+<identifier>+ in an expression, it
+gets evaluated to the object/value it points to. On the other hand, when you
+say:
+
+\begin{pygments}[frame=single]{python}
+<identifier1> = <identifier2>
+\end{pygments}
+
+you mean that the name \Verb+<identifier1>+ points to the same object/value that
+the name \Verb+<identifier2>+ points to. You do not establish a direct
+connection between the two identifiers; therefore manipulating one, does not
+effect the other.\footnote{Take the sentence `John goes shopping on the same
+day as Mary'. The two possible readings of this sentence are:
+\begin{itemize}
+\item[](R1) Mary goes to shopping on a certain day (say Monday), and that day is
+also the day for John to go shopping.
+\item[](R2) Whichever day Mary goes shopping, John does too on that day; John
+follows Mary's shopping schedule day-to-day.  
+\end{itemize} 
+The relation between identifiers we are concerned here is of type R1 rather than R2. This relates to
+the issue of extension versus intension.
+}
+
+
+\item Another important point about assignment statements is the order in which
+the Python interpreter handles them. First the expression on the right hand side
+is evaluated, \emph{then} the identifier on the left hand side is made pointing
+to that value. One nice corollary of this is the possibility of statements like
+the following:
+
+
+\begin{ucodeframe}
+\begin{pyconsole}
+my_number = 8*(5-3) 
+my_number
+my_number = my_number + 4 
+my_number
+\end{pyconsole}
+\end{ucodeframe}
+
+\item It works exactly the same with other operations and other data types.
+
+\begin{ucodeframe}
+\begin{pyconsole}
+my_word = 'abra' 
+my_word
+my_word = my_word * 4 
+my_word
+\end{pyconsole}
+\end{ucodeframe}
+
+\item We have seen some assignment statements;  pieces of
+code that put the `\Verb+=+' sign in between other things. It is important to
+notice how such statements differ from expressions. Take the following code:
+
+
+\begin{ucodeframe}
+\begin{pyconsole}
+my_number = 8*(5-3) 
+\end{pyconsole}
+\end{ucodeframe}
+
+when you enter this into console you get an empty prompt; in other words the
+console does not return anything. There is still an expression,
+\Verb+8*(5-3)+, as part of the
+statement and it gets evaluated; but the assignment statement itself
+does not return any value; it simply makes \Verb+my_number+ point to the value
+computed by evaluating \Verb+8*(5-3)+.
+
+\item In general, a statement is a piece of code that has a side effect; it does
+something beyond evaluation of expressions. Statements are executed, expressions
+are evaluated. You can think of a statement as an imperative sentence. The distinction will get clarified as we go along, just keep an
+eye on the distinction.
+
+\end{itemize}
+
+\section{Simple input/output}
+
+\begin{itemize}
+
+\item Some computer programs interact with their users. A basic interaction is
+to ask for an input from the user and to display an output for the user. The
+simplest way is using an \Verb+input()+ and \Verb+print()+ statement,
+respectively:
+
+\begin{pygments}[frame=single]{python}
+>>> my_number = input()
+'8'
+>>> print(my_number)
+'8'
+>>> 
+\end{pygments}
+
+\item You could use \Verb+input()+ on its own as a statement -- try it. In that
+case it still asks for an input to be entered, but the entered input is
+inaccessible afterwards. What we did above is to store the value entered by the
+user in a variable named \Verb+my_number+. This enabled us to use the value for
+some other purpose later on.
+
+\item You can make \Verb+input()+ and \Verb+print()+ more ``communicative'' by
+providing them string \uterm{arguments}:
+
+\begin{pygments}[frame=single]{python}
+>>> my_number = input('Give me a number: ')
+Give me a number: 8
+>>> print('My favorite number is ',my_number)
+My favorite number is  8
+>>> 
+\end{pygments}
+
+
+\item As you might have noticed, \pyv{input} returns a string even the user has
+entered an integer. Python3's \pyv{input} takes every input as a string. If you
+want \pyv{input} to read what is provided by the user as if the input is entered
+to the console, you \uterm{wrap} the function \pyv{eval} around \pyv{input}:
+
+\begin{pygments}[frame=single]{python}
+>>> my_number = eval(input())
+8
+>>> print(my_number)
+8
+>>> type(my_number)
+<class 'int'>
+>>> 
+\end{pygments}
+
+\end{itemize}
+
+\section{Programs}
+
+\begin{itemize} \item In languages like Python, a program is a sequence of one
+or more statements.\footnote{Some people like to use the word ``script'' instead
+of ``program'' for Python programs. The distinction is not important for us.}
+Although it is possible to enter your program line-by-line to the console, it is
+much more convenient to have it stored in a file and then run by the Python
+interpreter. Store your python programs in text files with the extension
+\Verb+.py+. 
+
+\begin{uexercise}
+
+\begin{enumerate}
+\item[]
+\item Write a program that asks for your name and prints the number of letters
+in it.
+\item Write a program that asks for your surname and prints its 2nd and 5th
+letters. (We maintain that no surname has less than 5 letters by filling the
+empty slots with 'x'.)
+\item Write a program that asks for two integers and prints their product.
+\item Write a program that asks for a word, and prints a version of it where the
+first letter is changed to 'C'.
+\item Write a program that asks for a word, and prints a version of it where the
+first and the last letter is in upper-case.
+\item Write a program that asks for a string and prints 0 if it has an even
+length and 1 if it has an odd length. Do not use \Verb+if+.
+\item Write a program that asks for a string and prints \Verb+True+ if its
+2nd and 4th symbols are equal. Do not use \Verb+if+.
+% \item Write a program that asks for a string and prints \Verb+True+ if the
+% string is a palindrome and \Verb+False+ otherwise. Do not use an \Verb+if+
+% statement. A palindrome is a string whose reverse is the same with itself,
+% e.g.\ \emph{eyedipadanadapideye}. Check the documentation for strings for some
+% useful methods..
+\end{enumerate}
+\end{uexercise}
+
+\end{itemize}
+
+\section{Containers}
+
+\subsection{Lists}
+
+\begin{itemize}
+\item A Python \uterm{list} is a comma separated sequence of objects enclosed in
+square brackets.
+
+
+\begin{ucodeframe}
+\begin{pyconsole}
+a = [1,2,3]
+type(a)
+b = list('abcd')
+b
+\end{pyconsole}
+\end{ucodeframe}
+
+
+
+\item String indexing works for lists as well -- make sure you fully understand
+how all the expressions below are evaluated.
+
+
+\begin{ucodeframe}
+\begin{pyconsole}
+things =  [2,3,'x',7,'yz',13]
+things[5]
+things[2:5:2]
+things[2:5:2][1]
+things[2:5:2][1][1]
+\end{pyconsole}
+\end{ucodeframe}
+
+\item In contrast to strings, lists are mutable; you can change any element of a
+set by using the corresponding index; but you cannot add an element to a list in
+this way -- try.
+
+\begin{ucodeframe}
+\begin{pyconsole}
+things =  [2,3,'x',7,'yz',13]
+things[5]= ['u',8]
+things
+\end{pyconsole}
+\end{ucodeframe}
+
+\item Note that a list can contain any type of object, including lists.
+
+\item The concatenation operator `\Verb-+-' used for stings is applicable also
+to lists.
+
+\begin{ucodeframe}
+\begin{pyconsole}
+things =  [2,3,'x',7,'yz',13]
+more_things = ['u',8]
+things + more_things
+\end{pyconsole}
+\end{ucodeframe}
+
+\item The concatenation operator `\Verb-+-' returns the result of concatenation
+of its operands, without changing the operands themselves. After the
+concatenation above, the lists \Verb+things+ and \Verb+more_things+ stay the
+same as before. If you want to change a list by concatenating another list to
+it, you have two options:
+
+\item[] Option 1:
+\begin{ucodeframe}
+\begin{pyconsole}
+things =  [2,3,'x',7,'yz',13]
+more_things = ['u',8]
+things = things + more_things
+things
+\end{pyconsole}
+\end{ucodeframe}
+
+\item[] Option 2:
+\begin{ucodeframe}
+\begin{pyconsole}
+things =  [2,3,'x',7,'yz',13]
+more_things = ['u',8]
+things.extend(more_things)
+things
+\end{pyconsole}
+\end{ucodeframe}
+
+
+\item The \Verb+extend()+ method is easy to confuse with \Verb+append()+. The
+latter adds its argument to the list it runs on:
+
+
+\begin{ucodeframe}
+\begin{pyconsole}
+w =  [2,3,7]
+w.append('x')
+w
+w.append(['x'])
+w
+w.extend(['x'])
+w
+\end{pyconsole}
+\end{ucodeframe}
+
+\item[] therefore extending a list $L$ with some list $[a]$ is
+equivalent to appending $a$ to $L$. 
+
+\item Lists allow for multiple assignments:
+
+\begin{ucodeframe}
+\begin{pyconsole}
+w = [8,0]
+x, y = w
+print(x,y)
+\end{pyconsole}
+\end{ucodeframe}
+
+\item The test for membership is done as follows:
+
+\begin{ucodeframe}
+\begin{pyconsole}
+w = [8,0]
+7 in w
+8 in w
+v = 3
+v in [1,2,3]
+\end{pyconsole}
+\end{ucodeframe}
+
+\item A useful method for string to list conversion is \Verb+split()+:
+
+\begin{ucodeframe}
+\begin{pyconsole}
+s = '1;2;3;4'
+s.split(';')
+t= '1 2 3 4'
+t.split(' ')
+\end{pyconsole}
+\end{ucodeframe}
+
+\item The dual of \Verb+split()+ is \Verb+join()+:
+
+\begin{ucodeframe}
+\begin{pyconsole}
+t= ['a','b','c','d']
+'-'.join(t)
+\end{pyconsole}
+\end{ucodeframe}
+Note that \Verb+join+ works only with lists of strings.
+\end{itemize}
+
+\subsection{Tuples}
+
+\begin{itemize}
+\item A Python \uterm{tuple} is an immutable list. 
+
+\begin{ucodeframe}
+\begin{pyconsole}
+w = 1,4,2
+type(w)
+w
+u = tuple([1,4,2])
+u
+v = tuple('abcde')
+v
+\end{pyconsole}
+\end{ucodeframe}
+
+\item Except methods and operations that are aimed to change the object,
+whatever you can do with a list applies for a tuple as well. 
+
+\item Advice: Use tuples instead of lists, (only) when there is a risk of accidentally
+altering the contents and/or size of the container.
+\end{itemize}
+
+\subsection{Dictionaries}
+
+\begin{itemize}
+\item A Python \uterm{dict} is a set of key-value pairs:
+
+\begin{ucodeframe}
+\begin{pyconsole}
+employer32 = {'Name':'J. Smith', 'Department':'Pretty Things'}
+employer32['Department']
+\end{pyconsole}
+\end{ucodeframe}
+
+\end{itemize}
+
+\subsection{Sets}
+\begin{itemize}
+
+\item Python has a \uterm{set} data type that
+implements the mathematical concept of sets. Use \Verb+help(set)+ to see how
+this data type works.
+
+\item Use sets instead of lists, if repetitions and order is not important for
+the task at hand.
+
+\end{itemize}
+
+\section{Flow of control}
+
+\begin{itemize}
+
+\item We will cover 3 basic ways to control the flow of execution:
+	\begin{enumerate}
+	\item sequencing;
+	\item conditional branching;
+	\item looping, which takes the two forms:
+		\begin{enumerate}
+		\item bounded looping;
+		\item conditional looping.
+		\end{enumerate}
+	\end{enumerate}
+
+\end{itemize}
+
+\subsection{Sequencing}
+
+\begin{itemize}
+
+\item This is the most basic control structure, and it is also simple to state:
+in the absence of other control structures statements are executed in the order
+they are encountered going from top to bottom.
+
+\end{itemize}
+
+\subsection{Conditional branching}
+
+\begin{itemize}
+
+\item A simple conditional statement is of the form 
+\item[] 
+\uterm{if} $<$\emph{boolean
+expression}$>$ \uterm{then} $<$\emph{statements}$>$  
+
+where
+$<$\emph{statements}$>$ are executed if $<$\emph{boolean expression}$>$ gets
+evaluated as \Verb+True+, and skipped otherwise. The syntax of the expression requires some care:  
+
+
+\begin{ucodeframe}
+\inputpygments{python}{code/simple-if.py}
+\end{ucodeframe}
+
+\item The above code tells the interpreter what to do when the provided boolean
+test returns \Verb+True+; you can specify what to do for the \Verb+False+ case
+as well.
+
+\begin{ucodeframe}
+\inputpygments{python}{code/else-if.py}
+\end{ucodeframe}
+
+\end{itemize}
+
+
+\subsection{Looping}
+
+\begin{itemize}
+
+\item  Looping allows for repeating an action with different parameters at every
+repetition. 
+
+\end{itemize}
+
+\subsubsection{Bounded loops}
+
+\begin{itemize}
+
+\item The maximum number of repetitions is fixed. Python uses the \Verb+for+
+structure for this. 
+
+\begin{ucodeframe}
+\inputpygments{python}{code/for-example.py}
+\end{ucodeframe}
+
+
+\end{itemize}
+
+\subsubsection{Conditional loops}
+
+\begin{itemize}
+
+\item The second type of looping does not have an upper bound for the number of
+repetitions. The loop runs as long as a condition is met. Python has the
+\Verb+while+ construct for this purpose:
+
+\begin{ucodeframe}
+\inputpygments{python}{code/while-example.py}
+\end{ucodeframe}
+\end{itemize}
+
+\section{Functions}
+
+\begin{itemize}
+
+\item A Python function is a subprogram that can be called within other programs, including itself. 
+
+\item For instance, assume you have the task of deciding whether two lists of numbers have the same arithmetic mean. Here is a first attempt: 
+
+\begin{ucodeframe}
+\inputpygments{python}{code/comp-mean-long.py}
+\end{ucodeframe}
+
+
+\item The above program can be improved by putting the lists
+themselves in a for loop, thereby writing the code for mean
+calculation only once.
+
+\begin{ucodeframe}
+\inputpygments{python}{code/comp-mean-middle.py}
+\end{ucodeframe}
+
+\item We will now separate the calculation of the mean from the main
+program by defining a function that computes the mean of a given list
+of numbers. First, the function definition in the Python way:
+
+\begin{ucodeframe}
+\inputpygments{python}{code/comp-mean-func.py}
+\end{ucodeframe}
+
+
+\item Now the complete program:
+
+\begin{ucodeframe}
+\inputpygments{python}{code/comp-mean.py}
+\end{ucodeframe}
+
+\item Organizing your programs into functions is good because:
+	\begin{itemize}
+	\item it makes the program easy to write/understand; 
+	\item the function can be re-used within the same program or by other programs. 
+	\end{itemize}
+
+\item Python functions come in three types:
+\begin{itemize}
+\item functions that return a value, as above;
+\item functions that has a side effect without returning anything;
+\item functions that do both.
+\end{itemize}
+
+\item A function \uterm{terminates} (or \uterm{halts}) when:
+	\begin{enumerate}
+	\item a \Verb+return+ statement is executed;
+	\item an exception that sends the control to outside of the function
+	occurs;\footnote{This will get clarified when we cover errors and
+	exceptions.}
+	\item the last statement in the function definition is executed. 
+	\end{enumerate}
+\end{itemize}
+
+\begin{itemize}
+\item Names internal to a function are invisible to and irrelevant for the users
+of that function. The case is exactly like in mathematics. Take the function
+that sums the squares of two numbers: 
+$$f(x,y) = x^2 + y^2$$
+The function may well have been defined as:
+$$f(s,t) = s^2 + t^2$$
+Which way it is defined is totally irrelevant for its use. 
+
+\item This brings us to the notion of \uterm{scope} of a variable. Take the
+following simple functions:
+
+{\small
+\begin{pygments}[frame=single]{python}
+
+def g(y,x):
+	return y - x 
+
+def f(x,y):
+	return g(x,y) / (x + y)
+
+\end{pygments}
+}
+
+\item[] What would be the result of \pyv{f(4,6)}? 
+\item[] When the function \pyv{f} is called with these \uterm{parameters}, the
+following assignments are made:
+
+\begin{align*}
+\pyv{x}\leftarrow 4\\
+\pyv{y}\leftarrow 6
+\end{align*}
+
+\item[] When \pyv{g} is called with the parameters \pyv{x} and \pyv{y} from
+within \pyv{f}, what happens is that the identifier \pyv{y} in the definition of
+\pyv{g} is made to point to the value that was being pointed to by the
+identifier \pyv{x} of \pyv{f}.\footnote{Strictly speaking, these identifiers are
+created afresh every time the function is invoked.} Pretty confusing.  In order
+not to get confused, in referring to an identifier, let us indicate the owner
+function as a subscript.  When \pyv{f(4,6)} is invoked we have:
+
+\begin{align*}
+\pyv{x}_{\pyv{f}} \leftarrow 4\\
+\pyv{y}_{\pyv{f}}\leftarrow 6
+\end{align*}
+
+\item As \pyv{g(x,y)} is invoked, the variable assignments become like this:
+
+\begin{align*}
+\pyv{x}_{\pyv{f}} \leftarrow 4\\
+\pyv{y}_{\pyv{f}}\leftarrow 6\\
+\pyv{x}_{\pyv{g}} \leftarrow 6\\
+\pyv{y}_{\pyv{g}}\leftarrow 4
+\end{align*}
+
+\item This shows that the naming of the variables in \pyv{g} is totally
+independent of those of \pyv{f}. In invoking a function what is important is the
+position of the parameters. The first identifier in the function definition is
+made to point to the value of the first parameter in the function call, the
+second identifier points to the value of the second parameter, and so on. 
+
+\item A functional parameter or any identifier that is created within the body
+of a function does not exist outside the body of that function.
+
+\item You can think of each identifier as having an owner. This could be the
+main program, a function within the program, or a construct like a \pyv{for}
+loop. The rule to keep in mind is that an identifier always belongs to the
+closest owner. 
+
+% Here is an example, work out the value of \pyv{a(1,2)}:  
+% 
+% \begin{ucodeframe}
+% {\small
+% \inputpygments{python}{code/scope-example-for-loop.py}
+% }
+% \end{ucodeframe}
+% 
+
+% \item You may leave a variable \uterm{free} in a function; but then it needs to
+% refer to a value that is outside the scope of the function, otherwise you get an
+% error.
+
+\end{itemize}
+
+\section{Some basic programming techniques} {
+
+\subsection{Counters} 
+
+\begin{itemize}
+
+\item Counting is perhaps the first thing that comes to mind about computing.
+Keeping a variable that is incremented or decremented according to certain
+conditions checked within a loop is a ubiquitous programming technique. 
+
+\item A very simple example would be a function that takes a list and an object,
+returning the number of times the object occurs in the list.
+
+\begin{ucodeframe}
+\inputpygments{python}{code/occurs-count.py}
+\end{ucodeframe}
+
+\end{itemize}
+
+\subsection{Accumulators}
+
+\begin{itemize}
+
+\item Assume you do not have multiplication as a primitive operator, i.e.\ no
+\Verb+*+.  Given two non-negative integers $m$ and $n$, you can think of their
+multiplication as adding $m$ to 0 for $n$ times. Here is a program that
+\uterm{implements} this idea.     
+
+\begin{ucodeframe}
+\inputpygments{python}{code/multiadd.py}
+\end{ucodeframe}
+
+\item Try multiplying 12 with 6666666666 (twelve 6's in a row), first directly
+on the Python interpreter, then by the program above.
+
+
+
+\end{itemize}
+
+
+
+
+\subsection{Accumulators}
+
+
+\subsection{Windows}
+
+\begin{itemize}
+\item  Compute the Fibonacci numbers less than 100.
+
+\end{itemize}
+
+\subsection{Flags} 
+
+
+\section{Recursion}
+
+\begin{itemize}
+
+\item A very effective programming technique is \uterm{recursion}. A recursive
+function includes a call to itself. The paradigm example is computing the
+factorial of a number. Let us first examine an \uterm{iterative} algorithm for
+the factorial function:
+
+\begin{ucodeframe}
+\vspace{1em}
+\begin{algorithmic}
+\Function{Factorial}{$n$}
+\State $result \gets 1$
+\State $count \gets 0$
+	\While{$count < n$}
+		\State $count \gets count + 1$
+		\State $result \gets result \times count$
+	\EndWhile
+\State \Return $result$
+\EndFunction
+\end{algorithmic}
+\end{ucodeframe}
+
+\item Now a recursive algorithm for computing the same function.
+
+\begin{ucodeframe}
+\vspace{1em}
+\begin{algorithmic}
+\Function{Factorial}{$n$}
+\If{$n = 0$}
+\State \Return 1
+\Else
+\State \Return $n*$ \Call{Factorial}{$n-1$}
+\EndIf
+\EndFunction
+\end{algorithmic}
+
+\end{ucodeframe}
+\item Note that the recursive algorithm is easier to understand. 
+
+\begin{uexercise}
+\begin{itemize}
+\item[]
+\item[a.] Write Python code that implements the iterative algorithm for
+the factorial; write two versions, one with \Verb+while+ and the other with
+\Verb+for+.
+
+\begin{hide}
+\begin{usolution}
+\begin{ucodeframe}
+\inputpygments{python}{code/fact-iter-while.py}
+\end{ucodeframe}
+
+\begin{ucodeframe}
+\inputpygments{python}{code/fact-iter-for.py}
+\end{ucodeframe}
+\end{usolution}
+\end{hide}
+
+\item[b.] Write Python code implementing the recursive algorithm.
+\begin{hide}
+\begin{usolution}
+\begin{ucodeframe}
+\inputpygments{python}{code/fact-rec.py}
+\end{ucodeframe}
+\end{usolution}
+\end{hide}
+\end{itemize}
+\end{uexercise}
+
+
+\item A more advanced example of recursion is the solution to the ancient
+game \href{https://en.wikipedia.org/wiki/Tower_of_Hanoi}{\uterm{Towers of Hanoi}}.
+
+\item The game involves a number of disks with holes in the middle, by which
+they can be fitted into pegs (or sticks). There are three pegs in total, call
+them $A$, $B$ and $C$. Initially all the disks are fitted to one of the disks in
+an order of decreasing size -- smallest on top. You can move one disk at a time
+from peg to peg. In no state of the game a larger disk can sit on top of a
+smaller one. The aim of the game is to transfer the stack of disks from its
+initial peg to another peg.
+
+\item Two questions that immediately arise about the game: Given $n$ disks:
+	\begin{itemize}
+	\item[i.] What is the minimum number of moves to transfer the disks to
+	another peg;
+	\item[ii.] What are the specific moves for the same task. 
+	\end{itemize}
+
+\item Work out the problem by hand for $n=3$ and $n=4$. This might reveal a recursive
+solution to the problem. Give yourself some time to work on the solution before
+reading on.
+
+\item Once you work out the solution for $n=3$, the solution for $n=4$ is simply
+running the solution for $n=3$ once,  moving the 3 disks to another location;
+then moving the 4th disk to the location which is empty, and finally running the
+solution for $n=3$ once more to bring the 3 disks on top of the 4th. Therefore,
+the number of moves you have in total is two times the number of moves for
+moving 3 disks plus 1. If this works for 4 disks, why should not it work for 5
+disks: first move the top 4 to another location, then the 5th, then the 4 on top
+of the 5th. You can also use the same method to compute the result for 3 disks:
+2 times the number of moves for 2 disks plus 1. It is not hard to see that the
+method works for an arbitrary integer $n$ greater than 1, no matter how large it
+is. The only case you need to dictate the result rather than use the method is
+$n=1$, where the number of moves is simply 1. Here is an algorithm to compute
+the number of moves for any $n$:
+
+\begin{ucodeframe}
+\hspace{1em}
+\begin{algorithmic}
+\Function{Number-of-Moves}{$n$} \Comment compute number of moves for $n$ disks
+\If{$n=1$}
+\State\Return 1
+\Else
+\State\Return ($2\times$ \Call{Number-of-Moves}{$n-1$}) $+1$
+	\EndIf
+\EndFunction
+\end{algorithmic}
+\end{ucodeframe}
+
+\item Constructing a function that gives you the specific moves is a harder task. 
+As a hint to the solution, think of a function with 4 parameters:
+move $n$ disks from $A$ to $B$ by using $C$. Try for some time, before reading
+on.
+
+
+
+\begin{ualgorithmic}
+\Function{Move}{$n,X,Y,Z$} \Comment move $n$ disks from $X$ to $Y$ using $Z$
+	\If{$n=1$}
+		\State\Print `Move from $X$ to $Y$' 
+	\Else
+		\State\Call{Move}{$n-1,X,Z,Y$} \Comment move $n-1$ disks from $X$ to $Z$ using $Y$
+		\State\Print `Move from $X$ to $Y$'
+		\State\Call{Move}{$n-1,Z,Y,X$} \Comment move $n-1$ disks from $Z$ to $Y$ using $X$
+	\EndIf
+\EndFunction
+\end{ualgorithmic}
+
+\begin{uexercise}
+\begin{itemize}
+\item[]
+\item[a.] Implement the recursive algorithm for computing the number of moves for Towers of Hanoi in Python. How does your counting
+program behave as the number of disks gets larger?
+
+\item[b.] Implement the recursive algorithm for computing the moves for Towers
+of Hanoi in Python. A sample interaction with such a program would look like: 
+
+\begin{ucodeframe}
+\begin{Verbatim}
+[code]$ python -i hanoi_moves_rec.py 
+>>> moves(3,'A','B','C')
+Move A to B
+Move A to C
+Move B to C
+Move A to B
+Move C to A
+Move C to B
+Move A to B
+>>> 
+\end{Verbatim}
+\end{ucodeframe}
+
+\end{itemize}
+\end{uexercise}
+
+\begin{hide}
+\begin{usolution}
+\begin{ucodeframe}
+\inputpygments{python}{code/hanoi_count_rec.py}
+\end{ucodeframe}
+\begin{ucodeframe}
+\inputpygments{python}{code/hanoi_moves_rec.py}
+\end{ucodeframe}
+\end{usolution}
+\end{hide}
+
+\item As you might have realized thinking of the solution and
+implementing it is easier than actually understanding how it works. 
+
+\item In order to better understand how the algorithm works, you can either
+trace the computation by pencil and paper, or use a visual debugger.
+TODO: Debugger section.
+
+\end{itemize}
+\end{document}
+
+\section{Taking notes on your code}
+
+\begin{itemize}
+\item Programs are structured texts that provides instruction and/or information
+to the computer. It is also useful to include some text in your program that is
+meant for a programmer -- you, in the first place. The usual name for such
+devices is \uterm{comment}. 
+\item The simplest type of comment is:
+
+
+
+\item Another possibility is the block comment structure:
+
+
+
+\end{itemize}
+
+
+
+
+
+
+
+\section{Procedure versus Process}
+
+\begin{itemize}
+\item explain this over factorial as in scip -- perhaps do this after recursion.
+\end{itemize}
+
+\section{Paradigm functions}
+
+\begin{itemize}
+\item Primitive recursive functions: power, greatest common divisor,
+$n^{th}$ prime.
+\item Computable but not primitive recursive: Ackermann's function.
+
+$$
+A(x,y) =
+\begin{cases}
+y + 1, & \text{if }x = 1\\
+A(x-1,1), & \text{if }y = 0\\
+A(x-1,A(x,y-1), & \text{otherwise.}
+\end{cases}
+$$
+
+
+\item Tree recursion -- the paradigm example is the computation of Fibonacci
+numbers:
+
+$$
+Fib(n) =
+\begin{cases}
+0, & \text{if }n = 0\\
+1, & \text{if }n = 1\\
+Fib(n-1) + Fib(n-2), & \text{otherwise.}
+\end{cases}
+$$
+
+\item The following is perhaps the conceptually most straightforward way of
+computing the $n^{th}$ Fibonacci number.
+
+{
+\small
+\begin{pygments}[frame=single]{python}
+def fib(n):
+	if n == 1:
+		return 1		
+	elif n == 0:
+		return 0
+	else:
+		return fib(n-1) + fib(n-2) 
+\end{pygments}
+}
+
+\item However, this is a very costly way of computing Fibonacci numbers. The
+reason becomes obvious when you draw a tree that traces the computation of, say,
+$Fib(5)$.
+
+\item Fortunately, it is possible to compute Fibonacci numbers with an iterative function as
+follows:
+
+{
+\small
+\begin{pygments}[frame=single]{python}
+def fibit(n):
+	if n <= 1:
+		return n
+
+	first, second = 1, 0
+
+	for i in range(n-1):
+		swap = first + second
+		second = first 
+		first = swap 
+			
+	return first 
+\end{pygments}
+}
+
+\end{itemize}
+\renewcommand{\bibsep}{0pt}
+\renewcommand{\bibfont}{\small}
+\bibliography{ozge}
+\bibliographystyle{natgig}
+\end{document}
