@@ -1,7 +1,8 @@
 \documentclass[a4paper]{article}
 \usepackage{natbib,unatbib}
-\usepackage[nohide]{ulecnot}
+\usepackage[hide,twocolumn]{ulecnot}
 
+\usepackage{imakeidx}
 
 \usepackage{tikz-qtree}
 
@@ -9,6 +10,9 @@
 \usepackage{xcolor}
 \usepackage{hyperref}
 \hypersetup{colorlinks=true,linkbordercolor=red,linkcolor=green,pdfborderstyle={/S/U/W 1}}
+
+\makeindex
+
 
 \pagestyle{fancy}
 \lhead{METU Cognitive Science}
@@ -18,6 +22,9 @@
 \cfoot{Draft \it \today}
 \rfoot{Page \thepage/\pageref{LastPage}}
 \setlength{\headheight}{13.6pt}
+
+
+
 
 
 \begin{document}
@@ -44,7 +51,7 @@ program, or you can do both.
 \item The previous item may not mean much at the moment, don't worry. 
 
 \item When you invoke the Python interpreter on its own, you will enter into the
-\uterm{interactive mode} of the interpreter.
+\uterm{interactive mode}\index{interactive mode} of the interpreter.
 
 
 \begin{ucodeframe}
@@ -247,7 +254,11 @@ round(3.141592653589793,4)
 One rounds the floating number to the nearest integer, and takes only the
 floating number to be rounded as argument. The other \pyv{round} takes two
 arguments. The first is the float, the second is the number of digits to be kept
-after the floating point.
+after the floating point.\footnote{Actually it is slightly more complicated than
+this. Strictly speaking there is one \pyv{round} and it has two arguments. What
+happens when you call \pyv{round} with a single argument is that the second
+argument is looked up from the function specification, which is set to 
+0 by default. More on this in Section~\ref{sec:functions}.}
 
 
 \end{itemize}
@@ -278,8 +289,8 @@ type('')
 \end{pyconsole}
 \end{ucodeframe}
 
-\item Just like numbers, strings can be added by `\Verb|+|' and you can
-``multiply'' a string by an integer:
+\item Just like numbers, strings can be added by `\Verb|+|', the
+\uterm{concatenation}\index{concatenation!string} operator, and you can ``multiply'' a string by an integer:
 
 \begin{ucodeframe}
 \begin{pyconsole}
@@ -292,7 +303,7 @@ type('')
 
 \item As we observed above, the built-in function \pyv{type} is evoked by
 providing its argument within parentheses. Python has another kind of built-in
-function which is called a \uterm{method}. These functions operate relative to certain types of objects. For
+function which is called a \uterm{method}\index{method}. These functions operate relative to certain types of objects. For
 instance a string object supports the method \pyv{upper()},
 which, like other methods, is evoked by the following syntax:
 
@@ -302,7 +313,12 @@ which, like other methods, is evoked by the following syntax:
 \end{pyconsole}
 \end{ucodeframe}
 
-\item We will encounter more string methods below.
+\item You can check all the methods available for strings in Python by typing
+\pyv{help(str)} in the console.
+
+\item Python provides fast access to the any substring of a string by a
+mechanism called \uterm{indexing}\index{indexing!string}.
+
 
 \end{itemize}
 
@@ -557,13 +573,15 @@ to ask for an input from the user and to display an output for the user. The
 simplest way is using an \Verb+input()+ and \Verb+print()+ statement,
 respectively:
 
-\begin{pygments}[frame=single]{python}
+\begin{ucodeframe}
+\begin{pygments}[frame=none]{python}
 >>> my_number = input()
 '8'
 >>> print(my_number)
 '8'
 >>> 
 \end{pygments}
+\end{ucodeframe}
 
 \item You could use \Verb+input()+ on its own as a statement -- try it. In that
 case it still asks for an input to be entered, but the entered input is
@@ -574,13 +592,15 @@ some other purpose later on.
 \item You can make \Verb+input()+ and \Verb+print()+ more ``communicative'' by
 providing them string \uterm{arguments}:
 
-\begin{pygments}[frame=single]{python}
+\begin{ucodeframe}
+\begin{pygments}[frame=none]{python}
 >>> my_number = input('Give me a number: ')
 Give me a number: 8
 >>> print('My favorite number is ',my_number)
 My favorite number is  8
 >>> 
 \end{pygments}
+\end{ucodeframe}
 
 
 \item As you might have noticed, \pyv{input} returns a string even the user has
@@ -588,7 +608,8 @@ entered an integer. Python3's \pyv{input} takes every input as a string. If you
 want \pyv{input} to read what is provided by the user as if the input is entered
 to the console, you \uterm{wrap} the function \pyv{eval} around \pyv{input}:
 
-\begin{pygments}[frame=single]{python}
+\begin{ucodeframe}
+\begin{pygments}[frame=none]{python}
 >>> my_number = eval(input())
 8
 >>> print(my_number)
@@ -597,7 +618,7 @@ to the console, you \uterm{wrap} the function \pyv{eval} around \pyv{input}:
 <class 'int'>
 >>> 
 \end{pygments}
-
+\end{ucodeframe}
 \end{itemize}
 
 \section{Programs}
@@ -618,22 +639,19 @@ interpreter. Store your python programs in text files with the extension
 in it.
 \item Write a program that asks for your surname and prints its 2nd and 5th
 letters. (We maintain that no surname has less than 5 letters by filling the
-empty slots with 'x'.)
+empty slots with 'x' when entering the input string.)
 \item Write a program that asks for two integers and prints their product.
 \item Write a program that asks for a word, and prints a version of it where the
-first letter is changed to 'C'.
+first letter is changed to 'C'. (Type \pyv{help(str)} in the console to see some
+useful string methods.)
 \item Write a program that asks for a word, and prints a version of it where the
 first and the last letter is in upper-case.
 \item Write a program that asks for a string and prints 0 if it has an even
 length and 1 if it has an odd length. Do not use \Verb+if+.
 \item Write a program that asks for a string and prints \Verb+True+ if its
 2nd and 4th symbols are equal. Do not use \Verb+if+.
-% \item Write a program that asks for a string and prints \Verb+True+ if the
-% string is a palindrome and \Verb+False+ otherwise. Do not use an \Verb+if+
-% statement. A palindrome is a string whose reverse is the same with itself,
-% e.g.\ \emph{eyedipadanadapideye}. Check the documentation for strings for some
-% useful methods..
 \end{enumerate}
+
 \end{uexercise}
 
 \end{itemize}
@@ -658,7 +676,7 @@ b
 
 
 
-\item String indexing works for lists as well -- make sure you fully understand
+\item String indexing \index{indexing!list} works for lists as well -- make sure you fully understand
 how all the expressions below are evaluated.
 
 
@@ -672,7 +690,7 @@ things[2:5:2][1][1]
 \end{pyconsole}
 \end{ucodeframe}
 
-\item In contrast to strings, lists are mutable; you can change any element of a
+\item In contrast to strings, lists are \index{mutable}; you can change any element of a
 set by using the corresponding index; but you cannot add an element to a list in
 this way -- try.
 
@@ -686,7 +704,7 @@ things
 
 \item Note that a list can contain any type of object, including lists.
 
-\item The concatenation operator `\Verb-+-' used for stings is applicable also
+\item The concatenation\index{concatenation!list} operator `\Verb-+-' used for stings is applicable also
 to lists.
 
 \begin{ucodeframe}
@@ -924,12 +942,20 @@ structure for this.
 repetitions. The loop runs as long as a condition is met. Python has the
 \Verb+while+ construct for this purpose:
 
+\item The program in Code~\ref{while-example} illustrates a typical use of a
+\pyv{while} loop. 
+
+\begin{ucode}[While loop.]\label{while-example}
+\item[]
 \begin{ucodeframe}
 \inputpygments{python}{code/while-example.py}
 \end{ucodeframe}
+\end{ucode}
+
 \end{itemize}
 
 \section{Functions}
+\label{sec:functions}
 
 \begin{itemize}
 
@@ -1000,8 +1026,8 @@ Which way it is defined is totally irrelevant for its use.
 \item This brings us to the notion of \uterm{scope} of a variable. Take the
 following simple functions:
 
-{\small
-\begin{pygments}[frame=single]{python}
+\begin{ucodeframe}
+\begin{pygments}[frame=none]{python}
 
 def g(y,x):
 	return y - x 
@@ -1010,7 +1036,7 @@ def f(x,y):
 	return g(x,y) / (x + y)
 
 \end{pygments}
-}
+\end{ucodeframe}
 
 \item[] What would be the result of \pyv{f(4,6)}? 
 \item[] When the function \pyv{f} is called with these \uterm{parameters}, the
@@ -1082,12 +1108,21 @@ closest owner.
 Keeping a variable that is incremented or decremented according to certain
 conditions checked within a loop is a ubiquitous programming technique. 
 
-\item A very simple example would be a function that takes a list and an object,
+\item A simple example would be a function that takes a list and an object,
 returning the number of times the object occurs in the list.
 
+\begin{ucode}[Count occurrences]
+\item[]
+\vspace{-10pt}
 \begin{ucodeframe}
 \inputpygments{python}{code/occurs-count.py}
 \end{ucodeframe}
+\qed
+\end{ucode}
+
+\item Note the way the \pyv{count} variable is incremented. It is a short
+form that we have been avoiding till now. It is equivalent to the statement `\pyv{count = count
++ 1}'. 
 
 \end{itemize}
 
@@ -1096,36 +1131,57 @@ returning the number of times the object occurs in the list.
 \begin{itemize}
 
 \item Assume you do not have multiplication as a primitive operator, i.e.\ no
-\Verb+*+.  Given two non-negative integers $m$ and $n$, you can think of their
+`\Verb+*+'.  Given two non-negative integers $m$ and $n$, you can think of their
 multiplication as adding $m$ to 0 for $n$ times. Here is a program that
 \uterm{implements} this idea.     
+
+\item At any given point of this computation we need to have access to two values.
+One is how many more $m$'s we need to add; the other the value of $m$'s added so far.  
+We use a counter -- $n$ itself -- for the first and an \uterm{accumulator},
+\pyv{product}, for the second.
+
+\begin{ucode}[Multiplication]
+A program that multiplies two integers without using a multiplication
+operator.\footnote{If you wonder how would this roundabout way of implementing multiplication
+compares with Python's multiplication operator `\pyv{*}' speed-wise, try
+multiplying 12 with 6666666666 (twelve 6's in a row), first directly on the
+Python interpreter, then by the program.}
 
 \begin{ucodeframe}
 \inputpygments{python}{code/multiadd.py}
 \end{ucodeframe}
+\qed
+\end{ucode}
 
-\item Try multiplying 12 with 6666666666 (twelve 6's in a row), first directly
-on the Python interpreter, then by the program above.
-
+\begin{uexercise}[Accumulators]
+\begin{enumerate}
+\item[]
+\item
+Write a function that takes a list as input and returns its reverse. Use
+an accumulator in your solution.
+\item
+Write a second version that works for strings as well as lists.
+\item Write a function `\pyv{flip}' that takes a string and returns another
+string where the case of each character is flipped from upper to lower or vice
+versa. Check the string methods \pyv{isupper()}, \pyv{upper()}, \pyv{islower()},
+and
+\pyv{upper()}.
+\end{enumerate}
+\end{uexercise}
 
 
 \end{itemize}
 
-
-
-
-\subsection{Accumulators}
-
-
-\subsection{Windows}
-
-\begin{itemize}
-\item  Compute the Fibonacci numbers less than 100.
-
-\end{itemize}
 
 \subsection{Flags} 
 
+% \subsection{Windows}
+% 
+% \begin{itemize}
+% 
+% \item  Compute the Fibonacci numbers less than 100.
+% 
+% \end{itemize}
 
 \section{Recursion}
 
@@ -1169,9 +1225,9 @@ the factorial function:
 \item Note that the recursive algorithm is easier to understand. 
 
 \begin{uexercise}
-\begin{itemize}
+\begin{enumerate}
 \item[]
-\item[a.] Write Python code that implements the iterative algorithm for
+\item Write Python code that implements the iterative algorithm for
 the factorial; write two versions, one with \Verb+while+ and the other with
 \Verb+for+.
 
@@ -1187,7 +1243,7 @@ the factorial; write two versions, one with \Verb+while+ and the other with
 \end{usolution}
 \end{hide}
 
-\item[b.] Write Python code implementing the recursive algorithm.
+\item Write Python code implementing the recursive algorithm.
 \begin{hide}
 \begin{usolution}
 \begin{ucodeframe}
@@ -1195,7 +1251,7 @@ the factorial; write two versions, one with \Verb+while+ and the other with
 \end{ucodeframe}
 \end{usolution}
 \end{hide}
-\end{itemize}
+\end{enumerate}
 \end{uexercise}
 
 
@@ -1313,6 +1369,13 @@ trace the computation by pencil and paper, or use a visual debugger.
 TODO: Debugger section.
 
 \end{itemize}
+
+
+\section*{Solutions to selected exercises}
+
+For now, please see my solutions to problem sets.
+
+\printindex
 \end{document}
 
 \section{Taking notes on your code}
@@ -1420,3 +1483,12 @@ def fibit(n):
 \bibliography{ozge}
 \bibliographystyle{natgig}
 \end{document}
+
+TODO:
+integrate PS 4 -F2016
+
+% \item Write a program that asks for a string and prints \Verb+True+ if the
+% string is a palindrome and \Verb+False+ otherwise. Do not use an \Verb+if+
+% statement. A palindrome is a string whose reverse is the same with itself,
+% e.g.\ \emph{eyedipadanadapideye}. Check the documentation for strings for some
+% useful methods..
