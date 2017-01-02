@@ -952,7 +952,17 @@ repetitions. The loop runs as long as a condition is met. Python has the
 \end{ucodeframe}
 \end{ucode}
 
+\begin{uexercise}\label{excontainers}
+\begin{enumerate}
+\item \label{excartesian}
+Write a program that takes two sets from the user and prints the Cartesian
+product of the give sets in the form of a set of 2-tuples. You can use Python lists or
+sets to represent sets.
+\end{enumerate}
+\end{uexercise}
+
 \end{itemize}
+
 
 \section{Functions}
 \label{sec:functions}
@@ -1095,6 +1105,43 @@ closest owner.
 % \item You may leave a variable \uterm{free} in a function; but then it needs to
 % refer to a value that is outside the scope of the function, otherwise you get an
 % error.
+
+\end{itemize}
+
+\section{Taking notes on your code}
+
+\begin{itemize}
+
+\item Good computer code is usually self-explanatory. Using meaningful identifier
+names and having a neat and clear structure are good programming practices. 
+
+\item However as programs get complicated, it becomes necessary to add some text
+to your  code that is meant for a programmer -- you, in the first place. The
+usual name for such devices is \uterm{comment}.\index{comments}
+
+\item Single-line comments are written after `\pyv{#}' character.
+Anything that comes after `\pyv{#}' it until a line break is ignored by the interpreter.
+
+\begin{ucodeframe}
+\inputpygments{python}{code/hash-comment.py}
+\end{ucodeframe}
+
+\item If you need to use line breaks in your comment, Python provides a block
+comment structure. A block comment starts and ends with three consecutive
+double quotes and can include line breaks. Block comments can appear in anywhere
+in your code; but those immediately following a function definition appear on
+the help of that function (TODO: more on this later). 
+
+\begin{ucode}
+Here is the solution to
+Exercise \ref{excontainers}.\ref{excartesian} put into function form:
+\begin{ucodeframe}
+\inputpygments{python}{code/cartesian-product-func.py}
+\end{ucodeframe}
+
+\qed
+\end{ucode}
+
 
 \end{itemize}
 
@@ -1370,36 +1417,24 @@ TODO: Debugger section.
 
 \end{itemize}
 
+\newpage
 
 \section*{Solutions to selected exercises}
 
-For now, please see my solutions to problem sets.
-
-\printindex
-\end{document}
-
-\section{Taking notes on your code}
+For now, for most of the exercises, please see the solutions to problem sets.
 
 \begin{itemize}
-\item Programs are structured texts that provides instruction and/or information
-to the computer. It is also useful to include some text in your program that is
-meant for a programmer -- you, in the first place. The usual name for such
-devices is \uterm{comment}. 
-\item The simplest type of comment is:
+\item[\bf \ref{excontainers}.\ref{excartesian}] 
+\item[]
 
-
-
-\item Another possibility is the block comment structure:
-
-
-
+\begin{ucodeframe}
+\inputpygments{python}{code/cartesian-product.py}
+\end{ucodeframe}
 \end{itemize}
 
 
-
-
-
-
+\printindex
+\end{document}
 
 \section{Procedure versus Process}
 
@@ -1486,6 +1521,7 @@ def fibit(n):
 
 TODO:
 integrate PS 4 -F2016
+interactive invocation by -i
 
 % \item Write a program that asks for a string and prints \Verb+True+ if the
 % string is a palindrome and \Verb+False+ otherwise. Do not use an \Verb+if+
