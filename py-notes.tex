@@ -34,7 +34,7 @@
 \section{The Python interpreter}
 
 \begin{itemize}
-\item The first step to learning programming in Python is to have a working
+\item The first step into learning programming in Python is to have a working
 Python interpreter.
 
 \item The course will be based on Python 3, i.e.\ we will assume that you are
@@ -63,7 +63,7 @@ first line, following `\Verb+Python+'.
 \item The Python \uterm{prompt} `\Verb+>>>+' indicates that the interpreter is ready
 to receive input from the \uterm{user}.   
 \item From now on, I will call the interface by which you interact with the
-interpreter the \uterm{Python console}, or simply the \uterm{console}.
+interpreter the \uterm{Python console},\index{console} or simply the \uterm{console}.
 \item There are two ways to \uterm{exit} the console. You can either type
 \Verb+exit()+ followed by hitting \Verb+enter+, or you can hold down the control key and
 press \Verb+D+.
@@ -75,7 +75,7 @@ press \Verb+D+.
 
 \begin{itemize}
 \item A fundamental distinction you need to learn well is the one between
-\uterm{expressions} and \uterm{statements}. Here we start with expressions. The
+\uterm{expressions}\index{expression} and \uterm{statements}.\index{statement} Here we start with expressions. The
 statements will come later below.
 
 \item An expression is a piece of code that can be read by the interpreter. The
@@ -125,7 +125,7 @@ evaluates arithmetic expressions from left to right, without caring about
 the kind of the arithmetic operator it is interpreting. The Python interpreter,
 like other interpreters, has some grouping rules concerning algebraic
 expressions like arithmetic operations. For instance, we have just discovered
-that it gives \uterm{precedence} to multiplication with respect to addition. If
+that it gives \uterm{precedence}\index{operator precedence} to multiplication with respect to addition. If
 you want to compute first the sum of 4 and 7 and then multiply the result by 8,
 you should type:
 
@@ -168,10 +168,10 @@ on.\footnote{We will not cover the numerical type \pyv{complex}.}
 
 \item All the types of data mentioned above have their specific instances. As we
 will see shortly, the expression \pyv{4} is an instance of the type integer. We
-will call these instances \uterm{objects}. We will have more to say about these
+will call these instances \uterm{objects}.\index{object} We will have more to say about these
 matters later, but let us fix the terminology from the beginning: Every
-\uterm{object} is an instance of a \uterm{class}, which names the object's
-\uterm{type}. If you are confused about objects, classes, and so on, at this
+\uterm{object} is an instance of a \uterm{class},\index{class} which names the object's
+\uterm{type}.\index{type} If you are confused about objects, classes, and so on, at this
 point, do not worry and hold on. 
 
 \item Every programming language comes with a collection of \uterm{built-in data
@@ -198,7 +198,7 @@ type(4)
 \end{pyconsole}
 \end{ucodeframe}
 
-\item What \pyv{type} does is to first let the interpreter evaluate the
+\item What \pyv{type}\index{type} does is to first let the interpreter evaluate the
 expression in the parentheses, and then checks the type of the result of this
 evaluation.
 
@@ -213,7 +213,7 @@ type(4*2**3)
 \subsection{Float}
 \begin{itemize}
 \item Another numerical type is that of floating point numbers, or simply
-\uterm{float}.  
+\uterm{float}.\index{float}  
 
 \begin{ucodeframe}
 \begin{pyconsole}
@@ -240,7 +240,8 @@ divmod(8, 3)
 \item If what \pyv{divmod} does is not clear, try to figure it out by giving it 
 other arguments.
 
-\item A handy function to be used with float objects is \pyv{round}:
+\item A handy function to be used with float objects is
+\pyv{round}:
 
 \begin{ucodeframe}
 \begin{pyconsole}
@@ -1200,7 +1201,7 @@ Python interpreter, then by the program.}
 \qed
 \end{ucode}
 
-\begin{uexercise}[Accumulators]
+\begin{uexercise}
 \begin{enumerate}
 \item[]
 \item
@@ -1222,19 +1223,64 @@ and
 
 \subsection{Flags} 
 
-% \subsection{Windows}
-% 
-% \begin{itemize}
-% 
-% \item  Compute the Fibonacci numbers less than 100.
-% 
-% \end{itemize}
+\begin{itemize}
+
+\item Counters and accumulators are devices that are incremented or decremented
+as the computation advances. Their size depend on the input. Some programming
+tasks call for keeping track of the state of a variable, called
+ a \uterm{flag}\index{flags},  which can be in one of
+a fixed number of states. If
+the number of states is 2, then a boolean type variable is used to store the
+state, like an on/off switch. Here is an example:
+
+\begin{ucode}
+
+Below is a function that takes a string and returns
+\pyv{True} 
+ if the input string consists of zero or more \pyv{'a'}s and \pyv{'b}'s
+without more than 3 consecutive
+\pyv{a}'s, and returns \pyv{False} otherwise.\footnote{This is not the optimum way
+to solve this problem; the function loops through the input string till the end
+even in cases a reject decision becomes inevitable at a non-final iteration. The
+purpose of the code is to illustrate the use of a flag.}
+
+\begin{ucodeframe}
+\inputpygments{python}{code/flag-example.py}
+\end{ucodeframe}
+
+\qed
+\end{ucode}
+
+\end{itemize}
+
+\subsection{Windows}
+
+\begin{itemize}
+
+\item In all the examples so far, the decision of how to manipulate our counters
+and/or accumulators were based on the current item in a loop. In some programing
+tasks you need to check a number of items coming from consecutive iterations of
+a loop. An example:
+
+\begin{ucode}
+
+Now we have a slightly different string recognition task. 
+Here we need to accept strings of zero or more \pyv{a}'s and \pyv{b}'s that do \emph{not}
+contain the substring \pyv{'abab'}.
+
+\begin{ucodeframe}
+\inputpygments{python}{code/window-example.py}
+\end{ucodeframe}
+
+\qed
+\end{ucode}
+\end{itemize}
 
 \section{Recursion}
 
 \begin{itemize}
 
-\item A very effective programming technique is \uterm{recursion}. A recursive
+\item An effective programming technique is \uterm{recursion}. A recursive
 function includes a call to itself. The paradigm example is computing the
 factorial of a number. Let us first examine an \uterm{iterative} algorithm for
 the factorial function:
