@@ -23,10 +23,6 @@
 \rfoot{Page \thepage/\pageref{LastPage}}
 \setlength{\headheight}{13.6pt}
 
-
-
-
-
 \begin{document}
 
 \tableofcontents
@@ -80,7 +76,8 @@ statements will come later.
 
 \item An expression is a piece of code that can be read by the interpreter. The
 interpreter deciphers this code -- or understands it, if you like -- and
-computes the \uterm{value} of this expression, and finally returns the value.
+computes the \uterm{value} of this expression, and finally returns (a string
+representation of) the value.
 
 \item To fix the terminology, interpreter evaluates an expression and computes a
 result. This computed result is the value of the expression.
@@ -96,8 +93,8 @@ number. Simply type it on the console and hit \Verb+return+.
 \end{pyconsole}
 \end{ucodeframe}
 
-\item There is nothing more basic than an integer, therefore the interpreter
-give you the integer back as the result of its evaluation.
+\item Interpreter sees nothing to further evaluate given an integer, therefore
+it gives you the integer back as the result of the evaluation.
 
 \item Arithmetic expressions are so fundamental to computing that almost all
 programming languages have \uterm{constructs} to perform arithmetic. You can
@@ -171,8 +168,7 @@ will see shortly, the expression \pyv{4} is an instance of the type integer. We
 will call these instances \uterm{objects}.\index{object} We will have more to say about these
 matters later, but let us fix the terminology from the beginning: Every
 \uterm{object} is an instance of a \uterm{class},\index{class} which names the object's
-\uterm{type}.\index{type} If you are confused about objects, classes, and so on, at this
-point, do not worry and hold on. 
+\uterm{type}.\index{type} This much will do for the moment. 
 
 \item Every programming language comes with a collection of \uterm{built-in data
 types}. What we mean by being built-in is that the language has some basic
@@ -190,7 +186,8 @@ expression, it needs to construct complex expressions to ask the same question.}
 integers.
 
 \item You can ask the type of the value of an expression -- which is an object
--- on the Python console, by using a \uterm{built-in function} called `\pyv{type}'. 
+-- on the Python console, by using a \uterm{built-in
+function}\index{function!built-in} called `\pyv{type}'. 
 
 \begin{ucodeframe}
 \begin{pyconsole}
@@ -200,7 +197,7 @@ type(4)
 
 \item What \pyv{type}\index{type} does is to first let the interpreter evaluate the
 expression in the parentheses, and then checks the type of the result of this
-evaluation.
+evaluation:
 
 \begin{ucodeframe}
 \begin{pyconsole}
@@ -315,10 +312,11 @@ which, like other methods, is evoked by the following syntax:
 \end{ucodeframe}
 
 \item You can check all the methods available for strings in Python by typing
-\pyv{help(str)} in the console.
+\pyv{help(str)} in the console. You can leave the help screen by pressing
+\pyv{q}.
 
-\item Python provides fast access to the any substring of a string by a
-mechanism called \uterm{indexing}\index{indexing!string}.
+% \item Python provides fast access to the any substring of a string by a
+% mechanism called \uterm{indexing}\index{indexing!string}.
 
 
 \end{itemize}
@@ -435,20 +433,40 @@ point to an object by an \uterm{assignment statement}:
 
 \begin{ucodeframe}
 \begin{pyconsole}
-my_number = 5
+a_word = "I am not a word, I am a sentence."
 \end{pyconsole}
 \end{ucodeframe}
 
-\item From there on, you can use \Verb+my_number+ everywhere you want to use 5.
+\item From there on, you can use \Verb+a_word+ everywhere you want to use the
+string assigned to it. You can go on entering code into console as: 
+
+\begin{ucodeframe}
+\begin{pyconsole}
+len(a_word)
+a_word.isalpha()
+a_word.startswith("I am")
+\end{pyconsole}
+\end{ucodeframe}
+
+\item We encounter some new concepts here. First, you can get the length of
+a string by the built-in function \pyv{len}. Second the method
+\pyv{isalpha}\footnote{You can check what it does by \pyv{help(str.isalpha)}.} returns
+a \pyv{Bool} type value -- the method applies to some type and returns a value of
+another type. Third, methods, being functions, can take arguments:
+\pyv{startswith} takes a string as an argument and checks whether that string is
+a prefix of the string that the method is run on.
+	
+
 
 \item It is very important to learn the meaning of `\Verb+=+' in programming, as
 it is quite different from what we normally understand from equality in
 mathematics.\footnote{Some programming languages use `\Verb+<-+' instead.}
 
-\item Let's assume you continue the above code with entering this:  
+\item Let's assume you made this:  
 
 \begin{ucodeframe}
 \begin{pyconsole}
+my_number = 5
 your_number = my_number 
 \end{pyconsole}
 \end{ucodeframe}
