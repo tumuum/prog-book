@@ -9,7 +9,7 @@
 \usepackage{uprog}
 \usepackage{xcolor}
 \usepackage{hyperref}
-\hypersetup{colorlinks=true,linkbordercolor=red,linkcolor=green,pdfborderstyle={/S/U/W 1}}
+\hypersetup{colorlinks=true,linkbordercolor=red,linkcolor=magenta,pdfborderstyle={/S/U/W 1}}
 
 \makeindex
 
@@ -973,6 +973,59 @@ repetitions. The loop runs as long as a condition is met. Python has the
 
 \begin{uexercise}\label{excontainers}
 \begin{enumerate}
+
+\item Write a program (\Verb+flip+) that takes a string as input and gives
+another string which has the same characters as the input except 
+the case of every cased character (i.e.\ letters) is altered. 
+It would turn 
+\Verb+'abRaCadABra'+
+ to
+\Verb+'ABrAcADabRA'+,   
+\Verb+'Aa++aA' to \Verb+'aA++Aa', and so on.
+
+You may traverse a string letter by letter by using a \Verb+for+ loop, exactly
+like how we do for lists. Each iteration gives a one character string from the
+original string in the order of their appearance.
+
+You may use the built-in string functions \Verb+isupper()+, \Verb+islower()+,
+\Verb+upper()+, \Verb+lower()+ in your program. 
+
+\item
+Write a program (\Verb+acro+) that takes a string and returns an acronym.
+For instance it should return \Verb+'LSD'+ for 
+\Verb+'Lucy in the Sky with Diamonds+'. 
+
+But be careful, it should NOT return \Verb+'ISIS'+ for \Verb+'mIddle eaSt technIcal univerSity'+, \\ but print \Verb+'Sorry, no acronym for that.'+
+instead. You may use the built-in functions mentioned in the previous question.
+
+\item
+Write a program (\Verb+zipp+) that takes two lists and returns a list formed by
+taking one element from the first, then one from the second, then from the
+first, and so on. The program should be able to handle cases where one list is
+shorter than the other. Example outputs would be  
+\Verb+[1, 5, 2, 6, 3, 7, 4, 8]+
+for input lists \Verb+[1,2,3,4]+ and \Verb+[5,6,7,8]+, or for example 
+\Verb+[1, 5, 2, 6, 7, 8]+ for input lists \Verb+[1,2]+ and \Verb+[5,6,7,8]+.
+
+\item
+Write a program (\Verb+fact+) that gives the factorial of a given non-negative integer.
+(Factorial of 0 is 1, factorial of $n$ is $1\times 2 \times\ldots n$.)
+
+
+\item
+Write a program (\Verb+flat+) that takes a possibly nested list (= a list
+with at least one element which is itself a list) and returns a non-nested list.
+It gives \Verb+[1,2,3,4,5]+ for \Verb+[[1,2],3,[4],5]+, or \Verb+[1,2,3]+ for
+\Verb+[[1],[[2]], [[[3]]]]+, and so on.   
+
+You can check whether the value of a variable, say \Verb+mylist+, is a list or
+not by the python expression \Verb+type(mylist) is list+; this evaluates to
+\Verb+True+ if \Verb+mylist+ holds a list, and \Verb+False+ otherwise. Therefore
+you can write a conditional statement which controls the behavior of your
+program according to whether a certain object is a list or not.
+
+
+
 \item \label{excartesian}
 Write a program that takes two sets from the user and prints the Cartesian
 product of the give sets in the form of a set of 2-tuples. You can use Python lists or
@@ -1125,7 +1178,118 @@ closest owner.
 % refer to a value that is outside the scope of the function, otherwise you get an
 % error.
 
+
+
+\begin{uexercise}
+
+\begin{enumerate}
+\item[]
+\item Write a Python function \pyv{no_111} that takes a string argument and
+returns \pyv{True} if the provided string is in the following language and
+\pyv{False} otherwise:
+
+\begin{align*}
+\setabs{w\in \crbr{0,1}^*}{w \text{ has no substring }111}
+\end{align*}
+
+Your function should NOT use built-in string methods that search for a certain
+substring in a given string. Use a counter instead.
+
+Note that although the question asks for a function rather than a program, you
+need to test your function for correctness. The easiest way to do it is to have
+a program that has your function definition and uses it. Below is an example
+that tests a string for whether it starts with a capital letter or not. There
+are lines starting with \pyv{#}. These comments are ignored by the Python
+interpreter. They are written for other programmers to help them understand your
+programs.
+\href{https://www.dropbox.com/s/10wiiqy6a0g2hp9/func-prog-ex.py?dl=0}{Download
+the program to your computer}), and run to observe its behavior.
+
+\begin{ucodeframe}
+\footnotesize
+\inputpygments{python}{code/func-prog-ex.py}
+\end{ucodeframe}
+
+\item Write a function that takes a string as input and returns its reverse. 
+\item Write a function that tests whether a string is a palindrome. Use your
+function for reversing a string for testing palindromes. 
+
+\item Assume that exam grades are kept as a list of tuples. Each tuple pairs
+a student with her/his grade, e.g.\ \pyv{[('John',85),('Mary',90),('Maya',54)]}.
+Write a function that takes the student-grade list as input and returns the
+class average. Your function should work for any class size.
+
+
+\item Write a python program that takes two lists of integers from the user
+and returns the number of elements that occur at the same position in both of
+the lists. {\bf Do not use a function definition}. Note that, your program
+should be able to handle the case where the two lists are not equal in size. 
+In reading a list from the user, put your \pyv{input()} function inside
+\pyv{eval()}; this way the user can directly type a list. Observe the following
+sample interaction:
+
+
+\begin{ucodeframe}
+\footnotesize
+\begin{Verbatim}
+Python 3.4.2 (default, Oct  8 2014, 13:14:40) 
+[GCC 4.9.1] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> my_list = eval(input('A list please: '))
+A list please: [1,2,3]
+>>> my_list
+[1, 2, 3]
+>>> type(my_list)
+<class 'list'>
+>>> 
+\end{Verbatim}
+\end{ucodeframe}
+
+
+Some example sessions of your program
+would look like the following.
+
+\begin{ucodeframe}
+\begin{Verbatim}
+A list please: [1,[2,3],3,5,4]
+A list please: [2,3,3,4,[3,4]]
+the number of corresponding elements is:  1
+
+
+A list please: [1,2,3,4,5,6,7]
+A list please: [1,2,3]
+the number of corresponding elements is:  3
+\end{Verbatim}
+\end{ucodeframe}
+
+\item
+
+Modify your program so that the number of corresponding elements is returned by a function. 
+
+\item
+
+Write a python program that takes a list as input, prints each member to the
+screen, together with the information whether the member has been encountered
+before or not. A sample session would be like the following.
+
+
+\begin{ucodeframe}
+\begin{Verbatim}
+A list please: [1,3,1,4,2,3]
+1 new to me
+3 new to me
+1 seen before
+4 new to me
+2 new to me
+3 seen before
+\end{Verbatim}
+\end{ucodeframe}
+\end{enumerate}
+\end{uexercise}
+
 \end{itemize}
+
+
 
 \section{Taking notes on your code}
 
