@@ -1009,9 +1009,6 @@ shorter than the other. Example outputs would be
 for input lists \Verb+[1,2,3,4]+ and \Verb+[5,6,7,8]+, or for example 
 \Verb+[1, 5, 2, 6, 7, 8]+ for input lists \Verb+[1,2]+ and \Verb+[5,6,7,8]+.
 
-\item
-Write a program (\Verb+fact+) that gives the factorial of a given non-negative integer.
-(Factorial of 0 is 1, factorial of $n$ is $1\times 2 \times\ldots n$.)
 
 
 \item
@@ -1444,15 +1441,23 @@ contain the substring \pyv{'abab'}.
 \begin{uexercise}
 \begin{enumerate}
 \item[]
-\item[\hyperlink{soltry}{1.}]
+\item
+Write a program \pyv{fact} that gives the factorial of a given non-negative integer.
+(Factorial of 0 is 1, factorial of $n$ is $1\times 2 \times\ldots
+n$.)\href{https://github.com/umutozge/prog-book/blob/master/code/fact-iter-for.py}{[solution1]}
+ \href{https://github.com/umutozge/prog-book/blob/master/code/fact-iter-while.py}{[solution2]}
+
+\item
 Write a function that takes a list as input and returns its reverse. Use
 an accumulator in your solution. Also write functions that works for strings and
-works for both.  
-\item Write a function `\pyv{flip}' that takes a string and returns another
+works for both.  \href{https://github.com/umutozge/prog-book/blob/master/code/reverse.py}{[solution]}
+
+\item Write a function \pyv{flip} that takes a string and returns another
 string where the case of each character is flipped from upper to lower or vice
 versa. Check the string methods \pyv{isupper()}, \pyv{upper()}, \pyv{islower()},
-and
-\pyv{upper()}.
+and \pyv{upper()}--do not use \pyv{swap()}.
+\href{https://github.com/umutozge/prog-book/blob/master/code/flip.py}{[solution]}
+
 \item Write a  function \pyv{seclarge} that takes a list of integers
 as input and returns the second largest element of the list. You need to write a
 function that applies to a list of integers of any length and there is no
@@ -1461,9 +1466,8 @@ exceptional cases (empty list, lists with repeated elements, and the like),
 decide what to do in these cases, and make your function handle all these cases
 smoothly. \href{https://github.com/umutozge/prog-book/blob/master/code/seclarge.py}{[solution]}
 
-
 \item
-Write a function (\Verb+swap+) that takes a list and two indices as arguments
+Write a function \pyv{swap} that takes a list and two indices as arguments
 and swaps the elements at the given indices. Your function should return the
 modified list, if swap is successful; otherwise -- for instance if one or both
 of the indices is beyond the size of the list -- your function should return the
