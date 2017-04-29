@@ -1441,6 +1441,53 @@ contain the substring \pyv{'abab'}.
 \begin{uexercise}
 \begin{enumerate}
 \item[]
+\item Write a function named \pyv{myJoin} that takes a string type separator and a list of strings
+and returns a string where the strings in the list are joined by the separator. 
+%\href{https://github.com/umutozge/prog-book/blob/master/code/my_join.py}{[solution]}
+\item Write a function named \pyv{compare} that takes two integers, returns
+\pyv{"GT"}, \pyv{"LT"} or \pyv{"EQ"}.
+%\href{https://github.com/umutozge/prog-book/blob/master/code/.py}{[solution]}
+\item Write a function that takes a list and returns a list obtained by removing
+	the first element of the input list. If the list is empty the function should
+return back the empty list.
+\href{https://github.com/umutozge/prog-book/blob/master/code/remove_head.py}{[solution]}
+\item Write a function that takes an input list and removes its first element.
+The input list needs to be one element less after the function is applied.
+\href{https://github.com/umutozge/prog-book/blob/master/code/remove_head_in_place.py}{[solution]}
+\item Write a function that takes a list of integers and an integer and removes
+all occurrences of the integer from the list and returns the modified
+list.
+\href{https://github.com/umutozge/prog-book/blob/master/code/remove_all.py}{[solution]}
+\item Write a function that takes a list of integers and an integer and removes
+only the first occurrence of the integer from the list and returns the modified
+list. \href{https://github.com/umutozge/prog-book/blob/master/code/remove_first.py}{[solution]}
+\item Take a third argument \pyv{n} and remove at most \pyv{n} occurrences.
+\href{https://github.com/umutozge/prog-book/blob/master/code/remove_n.py}{[solution]}
+\item Remove the last occurrence of an item from a list; do NOT reverse the list
+or traverse it from backwards.
+\item Input: a list; Output: a palindrome of the list (e.g.\ given [1,2,3],
+returns [1,2,3,3,2,1]). Do not use builtin reverse function. 
+%\href{https://github.com/umutozge/prog-book/blob/master/code/list-palind.py}{[solution]}
+\item A program that takes a string as input and prints a horizontal histogram of the
+characters like below, for instance for the input \pyv{"abracadabra"}
+
+\begin{Verbatim}
+a *****
+b **
+c *
+d *
+r **
+\end{Verbatim}
+\href{https://github.com/umutozge/prog-book/blob/master/code/char_histo.py}{[solution]}
+
+\item Make a vertical histogram.
+\href{https://github.com/umutozge/prog-book/blob/master/code/char_histo_vert.py}{[solution]}
+\end{enumerate}
+\end{uexercise}
+
+\begin{uexercise}
+\begin{enumerate}
+\item[]
 \item
 Write a program \pyv{fact} that gives the factorial of a given non-negative integer.
 (Factorial of 0 is 1, factorial of $n$ is $1\times 2 \times\ldots
