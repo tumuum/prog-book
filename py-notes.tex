@@ -1577,11 +1577,82 @@ lines by \pyv{.writelines()}.
 \begin{uexercise}
 \begin{enumerate}
 \item[]
-\item Read words as in Example\ref{filei}. Write palindromes to a separate file,
+\item[] Read words as in Example\ref{filei}. Write palindromes to a separate file,
 word per line.
 \end{enumerate}
 \end{uexercise}
 
+
+\end{itemize}
+
+\section{Importing modules}
+
+\begin{itemize}
+
+\item By default, only a small number of basic functions and classes\footnote{A
+class is a program that defines types of objects together with various methods
+of those objects.} are available for the Python interpreter. For instance there
+is no means to generate random numbers by default. Python 3 provides the
+\uterm{module} named \pyv{random} for this and related functionality. In order
+to be able to use functions in a Python module, you need to import the module:
+
+\begin{ucodeframe}
+\begin{pyconsole}
+import random
+\end{pyconsole}
+\end{ucodeframe}
+
+\item Now you can use functions from the module by prefixing their names by
+\pyv{random.}. Here is how to generate a random integer from a certain range,
+including the end points:
+
+\begin{ucodeframe}
+\begin{pyconsole}
+random.randint(0,9)
+\end{pyconsole}
+\end{ucodeframe}
+
+\item Other useful functions are \pyv{choice()}, \pyv{sample()} and
+\pyv{shuffle()}.
+
+\begin{ucodeframe}
+\begin{pyconsole}
+random.choice(["Alpha","Bravo","Charlie","Delta","Echo"])
+random.sample(range(1,1000),10)
+list = [1,2,3,4,5]
+random.shuffle(list)
+list
+\end{pyconsole}
+\end{ucodeframe}
+
+\item Be careful that \pyv{shuffle()} does not return a value, it shuffles its
+list argument \emph{in-place}.
+
+\begin{uexercise} \begin{enumerate} \item[] \item Read in the word list file as
+in \ref{filei}. Import the module \pyv{statistics}.  After importing the module
+you can check the contents by \pyv{help(statistics)} in the console or visit
+\href{https://docs.python.org/3/library/statistics.html}{here}. Find out how to
+compute mean and standard deviation. Use this methods to calculate the mean word
+length and standard deviation. Write in a separate file all the words that are
+longer than mean + 2 times standard deviation. This will give you "unusually
+long" words of Turkish language.
+
+\item
+Read in the word list; randomly pick a word; shuffle it, ask the user to guess
+the original, unshuffled word. 
+
+\item
+Modify your solution to the previous item, such that a correct answer need
+not be the original word, any word in the word list would do.
+
+\item Write a function that takes a set of integers (you can take it as a list
+and eliminate repetitions) and generates a random binary relation as a set of
+ordered tuples. 
+\item Write functions that check functionhood, reflexivity, symmetry and
+transitivity of binary relations.
+
+\end{enumerate}
+\end{uexercise}
 
 \end{itemize}
 
