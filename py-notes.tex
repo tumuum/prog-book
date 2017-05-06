@@ -26,7 +26,7 @@
 \begin{document}
 
 \tableofcontents
-
+\newpage
 \section{The Python interpreter}
 
 \begin{itemize}
@@ -967,12 +967,12 @@ repetitions. The loop runs as long as a condition is met. Python has the
 \item The program in Code~\ref{while-example} illustrates a typical use of a
 \pyv{while} loop. 
 
-\begin{ucode}[While loop.]\label{while-example}
+\begin{uexample}[While loop.]\label{while-example}
 \item[]
 \begin{ucodeframe}
 \inputpygments{python}{code/while-example.py}
 \end{ucodeframe}
-\end{ucode}
+\end{uexample}
 
 \begin{uexercise}\label{excontainers}
 \begin{enumerate}
@@ -1312,7 +1312,7 @@ double quotes and can include line breaks. Block comments can appear in anywhere
 in your code; but those immediately following a function definition appear on
 the help of that function (TODO: more on this later). 
 
-\begin{ucode}
+\begin{uexample}
 Here is the solution to
 Exercise \ref{excontainers}.\ref{excartesian} put into function form:
 \begin{ucodeframe}
@@ -1320,7 +1320,7 @@ Exercise \ref{excontainers}.\ref{excartesian} put into function form:
 \end{ucodeframe}
 
 \qed
-\end{ucode}
+\end{uexample}
 
 
 \end{itemize}
@@ -1338,14 +1338,14 @@ conditions checked within a loop is a ubiquitous programming technique.
 \item A simple example would be a function that takes a list and an object,
 returning the number of times the object occurs in the list.
 
-\begin{ucode}[Count occurrences]
+\begin{uexample}[Count occurrences]
 \item[]
 \vspace{-10pt}
 \begin{ucodeframe}
 \inputpygments{python}{code/occurs-count.py}
 \end{ucodeframe}
 \qed
-\end{ucode}
+\end{uexample}
 
 \item Note the way the \pyv{count} variable is incremented. It is a short
 form that we have been avoiding till now. It is equivalent to the statement `\pyv{count = count
@@ -1367,7 +1367,7 @@ One is how many more $m$'s we need to add; the other the value of $m$'s added so
 We use a counter -- $n$ itself -- for the first and an \uterm{accumulator},
 \pyv{product}, for the second.
 
-\begin{ucode}[Multiplication]
+\begin{uexample}[Multiplication]
 A program that multiplies two integers without using a multiplication
 operator.\footnote{If you wonder how would this roundabout way of implementing multiplication
 compares with Python's multiplication operator `\pyv{*}' speed-wise, try
@@ -1378,7 +1378,7 @@ Python interpreter, then by the program.}
 \inputpygments{python}{code/multiadd.py}
 \end{ucodeframe}
 \qed
-\end{ucode}
+\end{uexample}
 
 \end{itemize}
 
@@ -1395,7 +1395,7 @@ a fixed number of states. If
 the number of states is 2, then a boolean type variable is used to store the
 state, like an on/off switch. Here is an example:
 
-\begin{ucode}
+\begin{uexample}
 
 Below is a function that takes a string and returns
 \pyv{True} 
@@ -1411,7 +1411,7 @@ purpose of the code is to illustrate the use of a flag.}
 \end{ucodeframe}
 
 \qed
-\end{ucode}
+\end{uexample}
 
 \end{itemize}
 
@@ -1424,7 +1424,7 @@ and/or accumulators were based on the current item in a loop. In some programmin
 tasks you need to check a number of items coming from consecutive iterations of
 a loop. An example:
 
-\begin{ucode}
+\begin{uexample}
 
 Now we have a slightly different string recognition task. 
 Here we need to accept strings of zero or more \pyv{a}'s and \pyv{b}'s that do \emph{not}
@@ -1435,7 +1435,7 @@ contain the substring \pyv{'abab'}.
 \end{ucodeframe}
 
 \qed
-\end{ucode}
+\end{uexample}
 \end{itemize}
 
 \begin{uexercise}
@@ -1532,6 +1532,58 @@ $\land$, $\lor$, respectively. Use lower case letters for proposition symbols.
 
 \end{enumerate}
 \end{uexercise}
+
+\section{Working with files}
+
+\begin{itemize}
+\item To handle a file you need a
+\uterm{stream}\index{file handling!input streams} object:
+
+\begin{ucodeframe}
+\pyv{f = open("textfile.txt","r")}
+\end{ucodeframe}
+
+The file `textfile.txt' needs to be in the directory you run the program or invoke
+the console.  
+
+\item The second argument to the function \pyv{open()} is the \uterm{mode} of
+the stream object,\footnote{Strictly speaking, it is a \pyv{TextIOWrapper} object.}
+ and the most common ones are \pyv{"r"} for read, \pyv{"w"} for write,
+and \pyv{"a"} for append; combinations are possible.  Check
+\href{https://docs.python.org/3/library/functions.html#open}{here} for
+additional modes.
+
+\item Once you have a stream object in read mode, the method \pyv{readlines()}
+returns the list of lines in the file. If you want to read lines one at a time,
+you need to use \pyv{readline()}. You can use the help function of the console
+to inspect other methods on streams.
+
+\begin{uexample}\label{filei} Let us read a
+\href{https://github.com/umutozge/prog-book/blob/master/code/tr-word-list.txt}{list}
+of Turkish words and compute the average word length.
+
+\begin{ucodeframe}
+\inputpygments{python}{code/mean-word-length.py}
+\end{ucodeframe}
+
+\end{uexample}
+
+\item In order to write to a file, open a stream with 
+\pyv{"w"} or \pyv{"a"} mode. The latter adds output to an already existing file,
+while the former creates a new file or overwrites what was already there. The
+basic writing method is \pyv{.write()}, you can also write a list of strings as
+lines by \pyv{.writelines()}.
+
+\begin{uexercise}
+\begin{enumerate}
+\item[]
+\item Read words as in Example\ref{filei}. Write palindromes to a separate file,
+word per line.
+\end{enumerate}
+\end{uexercise}
+
+
+\end{itemize}
 
 
 \section{Recursion}
