@@ -1657,25 +1657,289 @@ transitivity of binary relations.
 \end{itemize}
 
 
-% \section{Higher order functions}
-% 
-% \begin{itemize}
-% \item Higher order functions are functions that receive and/or deliver
-% functions.  
-% 
-% \item The following function takes a function and a list, and applies the
-% function to all the items in the list and returns the results, again in a list
-% in the same order.
-% 
-% \begin{ucodeframe}
-% \inputpygments{python}{lapply.py}
-% \end{ucodeframe}
-% 
-% 
-% 
-% 
-% \end{itemize}
-% 
+\section{Higher order functions}
+
+\begin{itemize}
+\item Higher order functions are functions that receive and/or deliver
+functions.  
+
+\begin{uexample}
+The following function takes a function and a list, and applies the
+function to all the items in the list and returns the results, again in a list
+in the same order.
+
+\begin{ucodeframe}
+\inputpygments{python}{code/lapply.py}
+\end{ucodeframe}
+
+\qed
+\end{uexample}
+
+\begin{uexample}
+Now a function which takes a function \pyv{f}, a value \pyv{k} and the number \pyv{n}  of
+times \pyv{f} is to be applied.    
+\begin{ucodeframe}
+\inputpygments{python}{code/mapply.py}
+\end{ucodeframe}
+
+\qed
+\end{uexample}
+
+\begin{uexample}
+Now a function whose return value is a function; taking two function arguments
+and returning their composition:
+
+\begin{ucodeframe}
+\inputpygments{python}{code/compose.py}
+\end{ucodeframe}
+
+Save this function definition in a file \pyv{ftools.py} (for ``function
+tools''); you can load the definitions in a python file by importing it either
+in another program or in the console. For now, the file should be in the same
+directory with the importing program or where you invoked the console. And you
+need to prefix whatever you call from the loaded module with the module name. 
+
+
+\begin{ucodeframe}
+
+\begin{pyconsole}
+import ftools
+smax = ftools.compose(str,max)
+smax([100,102,1002])
+s2max = ftools.compose(len,smax)
+s2max([100,102,1002])
+\end{pyconsole}
+\end{ucodeframe}
+
+\qed
+\end{uexample}
+
+\end{itemize}
+
+\section{Lambda abstraction}
+
+\begin{itemize}
+\item In its most ordinary use \pyv{lambda}'s provide a concise way of defining
+functions. Here is a function that duplicates a string or a number:
+
+\begin{ucodeframe}
+\begin{pyconsole}
+f = lambda x : 2*x 
+f(4)
+f("vah")
+f(f("vah"))
+\end{pyconsole}
+\end{ucodeframe}
+
+\item The \pyv{lambda} keyword is followed by the argument and the body of the
+function comes after the \pyv{:}.
+
+
+
+\item You do not need to name \pyv{lambda} functions in order to use them; you
+may directly use the definition itself, do not forget the parenthesis around the
+function and the argument:
+
+\begin{ucodeframe}
+\begin{pyconsole}
+(lambda x: 3*x**2 + 5*x + 2)(8)
+\end{pyconsole}
+\end{ucodeframe}
+
+\item You may have as many arguments as you like:
+
+\begin{ucodeframe}
+\begin{pyconsole}
+(lambda x, y : (x+y)/(x*y))(2,4)
+\end{pyconsole}
+\end{ucodeframe}
+
+\item The above function would give a division-by-zero error, if any of its
+arguments is zero. Therefore, it would be good to check for this and return
+\pyv{None} if this is the case:
+
+\begin{ucodeframe}
+\begin{pyconsole}
+k = lambda x, y : (x+y)/(x*y) if x*y != 0 else None
+k(2,4)
+type(k(0,4))
+\end{pyconsole}
+\end{ucodeframe}
+
+\item Given a function with more than one arguments, you can abstract over any
+argument you like via \pyv{lambda}. Here is an example. Python's math module
+provides a logarithm function whose default base is
+$e=2.78281828\ldots$.\footnote{Logarithm function $\log_b a$ gives the exponent
+$x$ such that $a=b^x$.} In order to use it in another base you need to specify
+the base as a second argument:
+
+
+\begin{ucodeframe}
+\begin{pyconsole}
+import math
+math.log(8)
+math.log(8,2)
+\end{pyconsole}
+\end{ucodeframe}
+
+\item[] Assume you need to use the logarithm function in base 2 frequently. You
+can define your own logarithm function as:
+
+
+\begin{ucodeframe}
+\begin{pyconsole}
+import math
+log = lambda x : math.log(x,2)
+log(8)
+\end{pyconsole}
+\end{ucodeframe}
+
+\item You can also abstract over the base argument. The following function takes
+one argument and returns the logarithm of 8 taking the argument as the base:
+
+\begin{ucodeframe}
+\begin{pyconsole}
+import math
+f = lambda x : math.log(8,x)
+f(2)
+f(10)
+\end{pyconsole}
+\end{ucodeframe}
+
+\item Let us now go higher order and define a function that takes a two-place
+function and abstracts over the first argument of this function, specifying its second argument.  
+
+\begin{ucodeframe}
+\begin{pyconsole}
+abstract1 = lambda f, x : lambda y : f(y,x)
+\end{pyconsole}
+\end{ucodeframe}
+
+\item[]Note that the return value of the function \pyv{abstract1} is itself a
+function -- the part coming after the first `:'. If you want to turn the
+Python's built-in logarithm function to a function operating at base 2, all you
+need is:
+
+
+\begin{ucodeframe}
+\begin{pyconsole}
+import math
+log2 = abstract1(math.log,2)
+log2(16)
+\end{pyconsole}
+\end{ucodeframe}
+
+\item Here is a similar function that abstracts over the second argument,
+specifying the first argument:
+
+\begin{ucodeframe}
+\begin{pyconsole}
+abstract2 = lambda f, x : lambda y : f(x,y)
+\end{pyconsole}
+\end{ucodeframe}
+
+\item Let us use \pyv{abstract2} on the binary function \pyv{math.pow} giving the
+result of raising its first argument to the power of its second argument.  
+
+\begin{ucodeframe}
+\begin{pyconsole}
+import math
+math.pow(2,3)
+pow2 = abstract2(math.pow,2)
+pow2(3) == math.pow(2,3)
+\end{pyconsole}
+\end{ucodeframe}
+
+\item Generalizing one step further, we arrive at a function \pyv{abstract} that
+takes which argument -- first or second -- to abstract over as a parameter (1
+for the first and 2 for the second):
+
+\begin{ucodeframe}
+\begin{pyconsole}
+abstract = lambda f, x, n :\
+lambda y : f(x,y) if n==2 else lambda y : f(y,x)
+import math
+abstract(math.pow,10,2)(3)
+\end{pyconsole}
+\end{ucodeframe}
+Note the use of the backslash  character `$\backslash$` to break lines
+
+\end{itemize}
+
+\section{List comprehensions}
+
+\begin{itemize}
+\item It is a highly common programming task to map a list of items to another
+list. For instance, you have a set of integers and you want the set of squares
+of these integers. One way to do it is to initialize an accumulator and
+collect all the squared integers in this accumulator through a for loop
+iterating over the original list. Python provides a concise way of realizing
+such processes.
+
+\begin{ucodeframe}
+\begin{pyconsole}
+import math
+k = [1,2,3,4,5]
+[math.pow(x,2) for x in k]
+\end{pyconsole}
+\end{ucodeframe}
+
+\item You can apply a filter to a list comprehension. For instance, if you want
+only the squares of even numbers in a list, you do:
+
+\begin{ucodeframe}
+\begin{pyconsole}
+import math
+k = [1,2,3,4,5]
+[math.pow(x,2) for x in k if x%2 == 0]
+\end{pyconsole}
+\end{ucodeframe}
+
+
+\hrulefill
+\begin{uexercise}
+Write a function \pyv{closest} that takes 3 arguments:
+\begin{itemize}
+\item[] \pyv{x}: an integer;
+\item[] \pyv{y}: an integer;
+\item[] \pyv{k}: a list of unary functions on integers.
+\end{itemize}
+
+The function \pyv{closest} should return the value closest to \pyv{y} obtained by applying one
+of the functions in \pyv{k} to \pyv{x} once.
+
+\end{uexercise}
+\begin{uexercise}
+Collatz Conjecture states that starting from any positive integer, one
+eventually arrives at 1, repeatedly applying the following function:
+
+$$C(n) =
+\begin{cases}
+n/2, &\text{ if }$n$\text{ is even}\\
+3n+1, &\text{ otherwise.} $$
+\end{cases}
+$$
+	For instance, the Collatz series for 6 would be, 6,3,10,5,16,8,4,2,1.
+
+\begin{enumerate}
+\item Write a function that computes the Collatz series for a given integer.
+\item Write a function that takes an integer \pyv{n} and a list of integers
+\pyv{k}, and filters out elements in \pyv{k} which are NOT in the Collatz series
+of \pyv{n}.
+\item Write a function that maps a list of integers to the list of number of
+steps required to reduce them to 1.
+\item Write a function that takes two integers \pyv{x} and \pyv{y}, and
+returns the number of integers less than or equal to \pyv{x} that can be reduced
+to 1 in \pyv{y} or fewer steps.
+\end{enumerate}
+\end{uexercise}
+
+
+
+
+\end{itemize}
+\hrulefill
+
 \section{Recursion}
 
 \begin{itemize}
@@ -1950,9 +2214,6 @@ def fibit(n):
 \bibliographystyle{natgig}
 \end{document}
 
-TODO:
-integrate PS 4 -F2016
-interactive invocation by -i
 
 % \item Write a program that asks for a string and prints \Verb+True+ if the
 % string is a palindrome and \Verb+False+ otherwise. Do not use an \Verb+if+
