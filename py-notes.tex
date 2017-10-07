@@ -1944,10 +1944,11 @@ to 1 in \pyv{y} or fewer steps.
 
 \begin{itemize}
 
-\item An effective programming technique is \uterm{recursion}. A recursive
-function includes a call to itself. The paradigm example is computing the
-factorial of a number. Let us first examine an \uterm{iterative} algorithm for
-the factorial function:
+\item A recursive function/procedure includes a call to itself. 
+
+\begin{uexample}
+
+Let us first examine an \uterm{iterative} algorithm for the factorial function:
 
 \begin{ucodeframe}
 \vspace{1em}
@@ -1964,7 +1965,7 @@ the factorial function:
 \end{algorithmic}
 \end{ucodeframe}
 
-\item Now a recursive algorithm for computing the same function.
+Now a recursive algorithm for computing the same function.
 
 \begin{ucodeframe}
 \vspace{1em}
@@ -1979,8 +1980,12 @@ the factorial function:
 \end{algorithmic}
 
 \end{ucodeframe}
-\item Note that the recursive algorithm is easier to understand. 
 
+\end{uexample}
+
+\item Note that the recursive algorithm for factorial is easier to understand. 
+
+\hrulefill
 \begin{uexercise}
 \begin{enumerate}
 \item[]
@@ -2010,12 +2015,13 @@ the factorial; write two versions, one with \Verb+while+ and the other with
 \end{hide}
 \end{enumerate}
 \end{uexercise}
+\hrulefill
 
-
-\item A more advanced example of recursion is the solution to the ancient
+\begin{uexample}
+A more advanced example of recursion is the solution to the ancient
 game \href{https://en.wikipedia.org/wiki/Tower_of_Hanoi}{\uterm{Towers of Hanoi}}.
 
-\item The game involves a number of disks with holes in the middle, by which
+The game involves a number of disks with holes in the middle, by which
 they can be fitted into pegs (or sticks). There are three pegs in total, call
 them $A$, $B$ and $C$. Initially all the disks are fitted to one of the disks in
 an order of decreasing size -- smallest on top. You can move one disk at a time
@@ -2023,18 +2029,18 @@ from peg to peg. In no state of the game a larger disk can sit on top of a
 smaller one. The aim of the game is to transfer the stack of disks from its
 initial peg to another peg.
 
-\item Two questions that immediately arise about the game: Given $n$ disks:
+Two questions that immediately arise about the game: Given $n$ disks:
 	\begin{itemize}
 	\item[i.] What is the minimum number of moves to transfer the disks to
 	another peg;
 	\item[ii.] What are the specific moves for the same task. 
 	\end{itemize}
 
-\item Work out the problem by hand for $n=3$ and $n=4$. This might reveal a recursive
+Work out the problem by hand for $n=3$ and $n=4$. This might reveal a recursive
 solution to the problem. Give yourself some time to work on the solution before
 reading on.
 
-\item Once you work out the solution for $n=3$, the solution for $n=4$ is simply
+Once you work out the solution for $n=3$, the solution for $n=4$ is simply
 running the solution for $n=3$ once,  moving the 3 disks to another location;
 then moving the 4th disk to the location which is empty, and finally running the
 solution for $n=3$ once more to bring the 3 disks on top of the 4th. Therefore,
@@ -2061,11 +2067,14 @@ the number of moves for any $n$:
 \end{algorithmic}
 \end{ucodeframe}
 
-\item Constructing a function that gives you the specific moves is a harder task. 
+
+\end{uexample}
+
+\begin{uexample}
+Constructing a function that gives you the specific moves in Towers of Hanoi is a harder task. 
 As a hint to the solution, think of a function with 4 parameters:
 move $n$ disks from $A$ to $B$ by using $C$. Try for some time, before reading
 on.
-
 
 
 \begin{ualgorithmic}
@@ -2079,7 +2088,9 @@ on.
 	\EndIf
 \EndFunction
 \end{ualgorithmic}
+\end{uexample}
 
+\hrulefill
 \begin{uexercise}
 \begin{itemize}
 \item[]
@@ -2106,6 +2117,7 @@ Move A to B
 
 \end{itemize}
 \end{uexercise}
+\hrulefill
 
 \begin{hide}
 \begin{usolution}
@@ -2126,6 +2138,74 @@ trace the computation by pencil and paper, or use a visual debugger.
 TODO: Debugger section.
 
 \end{itemize}
+
+\subsection{Tail recursion}
+
+Take the rather simple task of reversing a list. An iterative procedure with a \Verb+for+ or \Verb+while+ loop should be easy to construct by now. A recursive procedure would not be much harder to think of. 
+
+\begin{ualgorithmic}
+\Function{Reverse}{$l$} 
+	\If{$l$ is empty}
+		\State\Return $l$ 
+	\Else
+		\State\Return \Call{Reverse}{all but first of $l$} + [first of $l$]
+	\EndIf
+\EndFunction
+\end{ualgorithmic}
+
+Python implementation is straightforward:
+
+\begin{ucodeframe}
+\inputpygments{python}{code/recursive-reverse.py}
+\end{ucodeframe}
+
+
+The following is the trace of the computation of this algorithm applied to \Verb+[1,2,3,4,5]+:
+
+\begin{ucodeframe}
+\footnotesize
+\begin{Verbatim}
+reverse([1,2,3,4,5])
+  reverse([2,3,4,5]) + [1]
+    reverse([3,4,5]) + [2]
+      reverse([4,5]) + [3]
+        reverse([5]) + [4]
+          reverse([]) + [5]
+            [] 
+          [5]
+        [5,4]
+      [5,4,3]
+    [5,4,3,2]
+  [5,4,3,2,1]
+\end{Verbatim}
+\end{ucodeframe}
+
+In the above diagram each level of indentation stands for a call of the
+function \Verb+reverse(l)+.  What is striking here is that in every recursive
+call of the function, some partial results have to be kept aside to be merged
+again after the series of recursive calls hits the basis case of an empty list. From start to end all the calls should be kept active in the memory.
+
+Now we see a slightly different approach which still has a recursive function call, but nevertheless looks more tidy in its computation. Our function will have an optional argument, which will be used as an accumulator for the result, just like we have been doing in iterative procedures we saw earlier. We directly give the python code (you are encouraged to write the pseudocode as an exercise):
+
+\begin{ucodeframe}
+\inputpygments{python}{code/tail-recursive-reverse.py}
+\end{ucodeframe}
+
+\begin{ucodeframe}
+\footnotesize
+\begin{Verbatim}
+reverse([1,2,3,4,5], [])
+  reverse([2,3,4,5], [1])
+    reverse([3,4,5], [2,1])
+      reverse([4,5], [3,2,1])
+        reverse([5], [4,3,2,1])
+          reverse([], [5,4,3,2,1])
+          [5,4,3,2,1]
+\end{Verbatim}
+\end{ucodeframe}
+
+As can be observed through the trace of computation, given any level in the stack of recursive function calls, how the computation will proceed is entirely determined by the information present in that step; you do not need to care about previous steps, as you will not need to return to them anymore. An interpreter made aware of this fact will optimize the computation by getting rid of the unnecessary information, freeing up space. The technical name is Tail Call Optimization and recursive procedures that are suitable for such optimization are called tail-recursive.\footnote{Python3 does not do such optimization. Each function call in the tail-recursive version of the reversing function will be kept in memory until the end of the procedure. As in each call the entire input list is kept, the tail-recursive program takes longer to execute.} 
+
 
 \newpage
 \printindex
@@ -2213,10 +2293,3 @@ def fibit(n):
 \bibliography{ozge}
 \bibliographystyle{natgig}
 \end{document}
-
-
-% \item Write a program that asks for a string and prints \Verb+True+ if the
-% string is a palindrome and \Verb+False+ otherwise. Do not use an \Verb+if+
-% statement. A palindrome is a string whose reverse is the same with itself,
-% e.g.\ \emph{eyedipadanadapideye}. Check the documentation for strings for some
-% useful methods..
